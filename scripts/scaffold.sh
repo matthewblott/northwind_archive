@@ -1,0 +1,1 @@
+dotnet-ef dbcontext scaffold "DataSource=../data/northwind.db" "Microsoft.EntityFrameworkCore.Sqlite"
