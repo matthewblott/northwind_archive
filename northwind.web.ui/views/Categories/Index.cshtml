@@ -1,0 +1,63 @@
+@model CategoriesViewModel
+
+<table class="table is-striped is-hoverable is-fullwidth">
+  <tr>
+    <th scope="col" nw-column="Id" asp-controller="Categories" nw-parameters="@Model.Parameters"
+        nw-page="@Model.PagedResult.PageNumber" asp-for="PagedResult">
+    </th>
+    <th scope="col" nw-column="CategoryName" asp-controller="Categories" nw-parameters="@Model.Parameters"
+        nw-page="@Model.PagedResult.PageNumber">
+    </th>
+    <th scope="col" nw-column="Description" asp-controller="Categories" nw-parameters="@Model.Parameters"
+        nw-page="@Model.PagedResult.PageNumber">
+    </th>
+    <th scope="col">
+      <a asp-action="New">
+        <i class="fa fa-plus"></i>
+      </a>
+    </th>
+  </tr>
+
+  @foreach (var item in Model.PagedResult.Data)
+  {
+    <tr>
+      <td>
+        @item.Id
+      </td>
+      <td>
+        @item.CategoryName
+      </td>
+      <td>
+        @item.Description
+      </td>
+      <td>
+
+        <input name="modal-toggle" type="radio" class="toggle is-nowidth" id="x@(item.Id)">
+        <label for="x@(item.Id)">
+          <i class="fa fa-eye"></i>
+        </label>
+
+        @await Html.PartialAsync("_Modal.cshtml", item)
+
+        <a asp-action="Show" asp-route-id="@item.Id">
+          <i class="fa fa-eye"></i>
+        </a>
+      </td>
+    </tr>
+  }
+
+</table>
+
+<nav class="pagination" role="navigation">
+  <nw-pager
+    cs-paging-pagenumber="@Model.PagedResult.PageNumber"
+    cs-paging-pagesize="@Model.PagedResult.PageSize"
+    cs-paging-totalitems="@Model.PagedResult.TotalItems"
+    asp-controller="Categories"
+    asp-action="Index"
+    asp-route-id="@Model.Parameters.Id"
+    asp-route-order="@Model.Parameters.OrderBy"
+    asp-route-name="@Model.Parameters.CategoryName"
+    asp-descending="@Model.Parameters.IsDescending">
+  </nw-pager>
+</nav>

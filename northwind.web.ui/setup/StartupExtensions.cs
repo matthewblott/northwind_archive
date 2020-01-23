@@ -29,7 +29,9 @@ namespace northwind.web.ui.setup
 
     public static void AddDomainServices(this IServiceCollection services)
     {
+      services.AddScoped<ICategoryService, CategoryService>();
       services.AddScoped<ICustomerService, CustomerService>();
+      services.AddScoped<IProductService, ProductService>();
     }
     
     public static void AddRouting(this IServiceCollection services) => 

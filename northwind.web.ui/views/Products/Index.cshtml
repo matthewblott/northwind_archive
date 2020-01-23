@@ -1,0 +1,55 @@
+@model ProductsViewModel
+
+<table class="table is-striped is-hoverable is-fullwidth">
+  <tr>
+    <th scope="col" nw-column="Id" asp-controller="Products" nw-parameters="@Model.Parameters"
+        nw-page="@Model.PagedResult.PageNumber" asp-for="PagedResult">
+    </th>
+    <th scope="col" nw-column="ProductName" asp-controller="Products" nw-parameters="@Model.Parameters" 
+        nw-page="@Model.PagedResult.PageNumber">
+    </th>
+    <th scope="col">
+      Unit <Price></Price>
+    </th>
+    <th scope="col">
+      <a asp-action="New">
+        <i class="fa fa-plus"></i>
+      </a>
+    </th>
+  </tr>
+
+  @foreach (var item in Model.PagedResult.Data)
+  {
+    <tr>
+      <td>
+        @item.Id
+      </td>
+      <td>
+        @item.ProductName
+      </td>
+      <td>
+        @item.UnitPrice
+      </td>
+      <td>
+        <a asp-action="Show" asp-route-id="@item.Id">
+          <i class="fa fa-eye"></i>
+        </a>
+      </td>
+    </tr>
+  }
+
+</table>
+
+<nav class="pagination" role="navigation">
+  <nw-pager
+    cs-paging-pagenumber="@Model.PagedResult.PageNumber"
+    cs-paging-pagesize="@Model.PagedResult.PageSize"
+    cs-paging-totalitems="@Model.PagedResult.TotalItems"
+    asp-controller="Products"
+    asp-action="Index"
+    asp-route-id="@Model.Parameters.Id"
+    asp-route-order="@Model.Parameters.OrderBy"
+    asp-route-name="@Model.Parameters.ProductName"
+    asp-descending="@Model.Parameters.IsDescending">
+  </nw-pager>
+</nav>

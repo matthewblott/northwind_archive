@@ -8,8 +8,15 @@ namespace northwind.web.ui.setup
   {
     public MappingProfile()
     {
+      CreateMap<Category, CategoryViewModel>().ReverseMap();
+      CreateMap<PagedResult<Category>, PagedResult<CategoryViewModel>>();
+
       CreateMap<Customer, CustomerViewModel>().ReverseMap();
-      CreateMap<PagedResult<Customer>, PagedResult<CustomerViewModel>>();
+      CreateMap<Customer, PartialCustomerViewModel>().ReverseMap();
+      CreateMap<PagedResult<Customer>, PagedResult<PartialCustomerViewModel>>();
+      
+      CreateMap<Product, ProductViewModel>().ReverseMap();
+      CreateMap<PagedResult<Product>, PagedResult<ProductViewModel>>();
 
     }
     

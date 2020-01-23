@@ -1,0 +1,39 @@
+@model CategoryViewModel
+
+<div class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Edit</p>
+    </header>
+    <section class="modal-card-body">
+      <div class="content">
+        <form method="post" asp-controller="Categories" asp-action="Update" id="xxx@(Model.Id + 2)">
+          <div class="field">
+            <label class="label" asp-for="Id"></label>
+            <div class="control">
+              <input class="input validation" asp-for="Id">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" asp-for="CategoryName"></label>
+            <div class="control">
+              <input class="input validation" asp-for="CategoryName">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" asp-for="Description"></label>
+            <div class="control">
+              <input class="input validation" asp-for="Description">
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success" form="xxx@(Model.Id + 2)">Save</button>
+      <label class="button" for="xx@(Model.Id + 1)">Cancel</label>
+      <input name="modal-toggle" type="radio" class="is-nowidth" id="xx@(Model.Id + 2)">
+    </footer>
+  </div>
+</div>

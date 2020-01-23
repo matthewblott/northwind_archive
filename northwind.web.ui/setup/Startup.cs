@@ -17,10 +17,10 @@ namespace northwind.web.ui.setup
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddAutoMapper();
-      services.AddDomain("DataSource=../data/northwind.db");
-      services.AddDomainServices();
       services.AddLazyCache();
       services.AddCloudscribePagination();
+      services.AddDomain("DataSource=../data/northwind.db");
+      services.AddDomainServices();
       services.AddRouting();
       services.AddMvcServices();
 

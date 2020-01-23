@@ -7,8 +7,8 @@ namespace northwind.web.ui.models
   public class CustomersViewModel
   {
     public CustomerQueryParameters Parameters { get; }
-    public PagedResult<CustomerViewModel> PagedResult { get; }
-    public CustomersViewModel(CustomerQueryParameters parameters, PagedResult<CustomerViewModel> pagedResult)
+    public PagedResult<PartialCustomerViewModel> PagedResult { get; }
+    public CustomersViewModel(CustomerQueryParameters parameters, PagedResult<PartialCustomerViewModel> pagedResult)
     {
       Parameters = parameters;
       PagedResult = pagedResult;

@@ -8,19 +8,19 @@ namespace northwind.domain
 {
   public interface IContext : IDbContext
   {
-    DbSet<Categories> Categories { get; }
+    DbSet<Category> Categories { get; }
     DbSet<CustomerDemographics> CustomerDemographics { get; }
     DbSet<Customer> Customers { get; }
-    DbSet<EmployeeTerritories> EmployeeTerritories { get; }
-    DbSet<Employees> Employees { get; }
+    DbSet<EmployeeTerritory> EmployeeTerritories { get; }
+    DbSet<Employee> Employees { get; }
     DbSet<OrderDetails> OrderDetails { get; }
-    DbSet<Orders> Orders { get; }
+    DbSet<Order> Orders { get; }
     DbSet<ProductDetailsView> ProductDetailsView { get; }
-    DbSet<Products> Products { get; }
-    DbSet<Regions> Regions { get; }
-    DbSet<Shippers> Shippers { get; }
-    DbSet<Suppliers> Suppliers { get; }
-    DbSet<Territories> Territories { get; }
+    DbSet<Product> Products { get; }
+    DbSet<Region> Regions { get; }
+    DbSet<Shipper> Shippers { get; }
+    DbSet<Supplier> Suppliers { get; }
+    DbSet<Territory> Territories { get; }
 
     void Commit();
     

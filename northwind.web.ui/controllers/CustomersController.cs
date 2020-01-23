@@ -20,11 +20,15 @@ namespace northwind.web.ui.controllers
       _mapper = mapper;
     }
 
-    public IActionResult Index(long page, string id, string order, bool desc)
+    public IActionResult Index(long page, string id, string name, string order, bool desc)
     {
-      var parameters = new CustomerQueryParameters { Id = id, OrderBy = order, IsDescending = desc};
+      var parameters = new CustomerQueryParameters
+      {
+        Id = id, OrderBy = order, IsDescending = desc, CompanyName = name
+      };
+      
       var result = _service.Find(new Page(page), parameters);
-      var result0 =  _mapper.Map<PagedResult<CustomerViewModel>>(result);
+      var result0 =  _mapper.Map<PagedResult<PartialCustomerViewModel>>(result);
       var model = new CustomersViewModel(parameters, result0);
 
       return View(model);
@@ -57,6 +61,7 @@ namespace northwind.web.ui.controllers
       
     }
 
+    [HttpPost]
     public IActionResult Create(CustomerViewModel viewModel)
     {
       var model =  _mapper.Map<Customer>(viewModel);
@@ -71,34 +76,53 @@ namespace northwind.web.ui.controllers
       throw new Exception();
       
     }
+    
+    [HttpPost]
+    public IActionResult CreatePartial(UpdatePartialCustomerViewModel viewModel)
+    {
+      var model = new Customer
+      {
+        Id = viewModel.Id, CompanyName = viewModel.CompanyName, Region = viewModel.Region
+      };
 
+      _service.Create(model);
+
+      return Redirect(viewModel.ReturnUrl);
+
+    }
+
+    [HttpPost]
     public IActionResult Update(CustomerViewModel viewModel)
     {
       var model =  _mapper.Map<Customer>(viewModel);
       var id = viewModel.Id.ToUpper();
       var result = _service.Update(model);
 
-      if (result)
-      {
-        return RedirectToAction(nameof(Show), new { id });
-      }
+      return RedirectToAction(nameof(Show), new { id });
       
-      throw new Exception();
+    }
+    [HttpPost]
+    public IActionResult UpdatePartial(UpdatePartialCustomerViewModel viewModel)
+    {
+      var model = _service.Find(viewModel.Id);
+
+      model.CompanyName = viewModel.CompanyName;
+      model.Region = viewModel.Region;
+      
+      _service.Update(model);
+      
+      return Redirect(viewModel.ReturnUrl);
       
     }
 
+    [HttpPost]
     public IActionResult Delete(string id)
     {
       var result = _service.Delete(id);
 
-      if (result)
-      {
-        return RedirectToAction(nameof(Index));
+      return RedirectToAction(nameof(Index));
+      
       }
-      
-      throw new Exception();
-      
-    }
     
   }
   

@@ -1,26 +1,28 @@
 @model CustomersViewModel
 
+
 <table class="table is-striped is-hoverable is-fullwidth">
   <tr>
-    <th scope="col">
-      @(Html.DisplayName<CustomerViewModel>(m => m.Id))
+    <th scope="col">@(Html.DisplayName<CustomerViewModel>(m => m.Id))
       <col-header asp-query-parameters="@Model.Parameters" 
-         asp-controller="Customers" asp-route-page="@Model.PagedResult.PageNumber" asp-route-order="Id">
-      </col-header>
+                  asp-controller="Customers" asp-action="Index" asp-route-order="Id" />
+    </th>  
+    
+    <th scope="col" nw-column="CompanyName" asp-controller="Customers" nw-parameters="@Model.Parameters"
+        nw-page="@Model.PagedResult.PageNumber" asp-column-caption="Company">
+    </th>
+    <th scope="col" nw-column="Region" asp-controller="Customers" nw-parameters="@Model.Parameters"
+        nw-page="@Model.PagedResult.PageNumber">
     </th>
     <th scope="col">
-      @(Html.DisplayName<CustomerViewModel>(m => m.CompanyName))
-      <col-header asp-query-parameters="@Model.Parameters" 
-         asp-controller="Customers" asp-route-page="@Model.PagedResult.PageNumber" asp-route-order="CompanyName">
-      </col-header>
-    </th>
-    <th scope="col">
-      @(Html.DisplayName<CustomerViewModel>(m => m.Region))
-      <col-header asp-query-parameters="@Model.Parameters" 
-         asp-controller="Customers" asp-route-page="@Model.PagedResult.PageNumber" asp-route-order="Region">
-      </col-header>
-    </th>
-    <th scope="col">
+
+      <input name="modal-toggle" type="radio" class="toggle is-nowidth" id="modal__button-new">
+      <label for="modal__button-new">
+        <i class="fa fa-plus has-text-light"></i>
+      </label>
+
+      @await Html.PartialAsync("_Modal.cshtml", new CustomerModalViewModel())
+
       <a asp-action="New">
         <i class="fa fa-plus"></i>
       </a>
@@ -40,9 +42,28 @@
         @item.Region
       </td>
       <td>
+
+        <input name="modal-toggle" type="radio" class="toggle is-nowidth" id="modal__button-@item.Id-1">
+        <label for="modal__button-@item.Id-1">
+          <i class="fa fa-edit has-text-light"></i>
+        </label>
+        
+        <input type="hidden">
+        
+        @await Html.PartialAsync("_Modal.cshtml", item.ToModal())
+
         <a asp-action="Show" asp-route-id="@item.Id">
           <i class="fa fa-eye"></i>
         </a>
+        
+        <form class="is-inline" method="post" asp-controller="Customers" asp-action="Delete" id="customers__form-delete-@item.Id">
+          <input type="hidden" name="id" value="@item.Id">
+        </form>
+        
+        <button class="button-a" form="customers__form-delete-@item.Id">
+          <i class="fa fa-trash-alt has-text-light"></i>
+        </button>
+        
       </td>
     </tr>
   }
@@ -50,28 +71,15 @@
 </table>
 
 <nav class="pagination" role="navigation">
-  <cs-pager
+  <nw-pager
     cs-paging-pagenumber="@Model.PagedResult.PageNumber"
     cs-paging-pagesize="@Model.PagedResult.PageSize"
     cs-paging-totalitems="@Model.PagedResult.TotalItems"
-    cs-pagenumber-param="page"
-    cs-show-first-last="false"
-    cs-suppress-empty-nextprev="true"
-    cs-remove-nextprev-links="false"
-    cs-suppress-inactive-firstlast="true"
-    cs-first-page-text="<"
-    cs-last-page-text=">"
-    cs-pager-li-current-class=""
-    cs-pager-li-other-class=""
-    cs-pager-li-non-active-class=""
-    cs-pager-link-current-class="pagination-link is-current"
-    cs-pager-link-other-class="pagination-link has-text-light"
-    cs-previous-page-html="<a href='#' class='pagination-link has-text-light'>Previous</a>"
-    cs-next-page-html="<a href='#' class='pagination-link has-text-light'>Next page</a>"
     asp-controller="Customers"
     asp-action="Index"
     asp-route-id="@Model.Parameters.Id"
     asp-route-order="@Model.Parameters.OrderBy"
-    asp-route-desc="@Model.Parameters.IsDescending.ToString().ToLower()">
-  </cs-pager>
+    asp-route-name="@Model.Parameters.CompanyName"
+    asp-descending="@Model.Parameters.IsDescending">
+  </nw-pager>
 </nav>

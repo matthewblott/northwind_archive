@@ -11,11 +11,13 @@ namespace northwind.domain
   {
     public static void Build(this ModelBuilder builder)
     {
-      builder.Entity<Categories>(entity =>
-      {
-        entity.Property(e => e.Id).ValueGeneratedNever();
-        entity.Property(e => e.CategoryName).HasColumnType("VARCHAR(8000)");
-        entity.Property(e => e.Description).HasColumnType("VARCHAR(8000)");
+      builder.Entity<Category>(entity =>
+      {        
+        entity.HasKey(e => e.Id);
+        //entity.ToTable("Categories");
+        // entity.Property(e => e.Id).ValueGeneratedNever();
+        // entity.Property(e => e.CategoryName).HasColumnType("VARCHAR(8000)");
+        // entity.Property(e => e.Description).HasColumnType("VARCHAR(8000)");
       });
 
       builder.Entity<CustomerDemographics>(entity =>
@@ -40,13 +42,13 @@ namespace northwind.domain
         // entity.Property(e => e.Region).HasColumnType("VARCHAR(8000)");
       });
 
-      builder.Entity<EmployeeTerritories>(entity =>
+      builder.Entity<EmployeeTerritory>(entity =>
       {
         entity.Property(e => e.Id).HasColumnType("VARCHAR(8000)");
         entity.Property(e => e.TerritoryId).HasColumnType("VARCHAR(8000)");
       });
 
-      builder.Entity<Employees>(entity =>
+      builder.Entity<Employee>(entity =>
       {
         entity.Property(e => e.Id).ValueGeneratedNever();
         entity.Property(e => e.Address).HasColumnType("VARCHAR(8000)");
@@ -73,7 +75,7 @@ namespace northwind.domain
         entity.Property(e => e.UnitPrice).IsRequired().HasColumnType("DECIMAL");
       });
 
-      builder.Entity<Orders>(entity =>
+      builder.Entity<Order>(entity =>
       {
         entity.Property(e => e.Id).ValueGeneratedNever();
         entity.Property(e => e.CustomerId).HasColumnType("VARCHAR(8000)");
@@ -102,28 +104,29 @@ namespace northwind.domain
         entity.Property(e => e.UnitPrice).HasColumnType("DECIMAL");
       });
 
-      builder.Entity<Products>(entity =>
-      {
-        entity.Property(e => e.Id).ValueGeneratedNever();
-        entity.Property(e => e.ProductName).HasColumnType("VARCHAR(8000)");
-        entity.Property(e => e.QuantityPerUnit).HasColumnType("VARCHAR(8000)");
-        entity.Property(e => e.UnitPrice).IsRequired().HasColumnType("DECIMAL");
+      builder.Entity<Product>(entity =>
+      {        
+        entity.HasKey(e => e.Id);
+        // entity.Property(e => e.Id).ValueGeneratedNever();
+        // entity.Property(e => e.ProductName).HasColumnType("VARCHAR(8000)");
+        // entity.Property(e => e.QuantityPerUnit).HasColumnType("VARCHAR(8000)");
+        // entity.Property(e => e.UnitPrice).IsRequired().HasColumnType("DECIMAL");
       });
 
-      builder.Entity<Regions>(entity =>
+      builder.Entity<Region>(entity =>
       {
         entity.Property(e => e.Id).ValueGeneratedNever();
         entity.Property(e => e.RegionDescription).HasColumnType("VARCHAR(8000)");
       });
 
-      builder.Entity<Shippers>(entity =>
+      builder.Entity<Shipper>(entity =>
       {
         entity.Property(e => e.Id).ValueGeneratedNever();
         entity.Property(e => e.CompanyName).HasColumnType("VARCHAR(8000)");
         entity.Property(e => e.Phone).HasColumnType("VARCHAR(8000)");
       });
 
-      builder.Entity<Suppliers>(entity =>
+      builder.Entity<Supplier>(entity =>
       {
         entity.Property(e => e.Id).ValueGeneratedNever();
         entity.Property(e => e.Address).HasColumnType("VARCHAR(8000)");
@@ -139,7 +142,7 @@ namespace northwind.domain
         entity.Property(e => e.Region).HasColumnType("VARCHAR(8000)");
       });
 
-      builder.Entity<Territories>(entity =>
+      builder.Entity<Territory>(entity =>
       {
         entity.Property(e => e.Id).HasColumnType("VARCHAR(8000)");
         entity.Property(e => e.TerritoryDescription).HasColumnType("VARCHAR(8000)");

@@ -85,7 +85,15 @@ public class ServiceBase<T> where T : class
 
     public PagedResult<T> Find(Page page, IQueryParameters parameters)
     {
-      var q = from x in _entities select x;
+      // customers?order=Region&page=1&desc=true&company=Fra&Id=
+      // OrderBy = "Region"
+      // IsDescending = true
+      // CompanyName = "Fra"
+      // Id = ""
+      
+      var q = 
+        from x in _entities 
+        select x;
 
       var orderBy = parameters.OrderBy;
       
@@ -105,30 +113,37 @@ public class ServiceBase<T> where T : class
         q = q.OrderByDescending(orderByExpression);
 
       }
-      
+
+      // Id, CompanyName, OrderBy, IsDescending
       var searchParams = parameters.GetType().GetProperties();
 
-      // All non null parameters
+      // CompanyName, OrderBy, IsDescending
       var nonNullParams = 
         from x in searchParams 
         where x.GetValue(parameters) != null 
         select x;
 
-      // All string parameters
+      // CompanyName, OrderBy
+      var nonNullStringParams =
+        from x in nonNullParams
+        where x.PropertyType == typeof(string)
+        select x;
+      
+      // Id, CompanyName, OrderBy
       var stringParams = 
         from x in searchParams 
         where x.PropertyType == typeof(string) 
         select x;
 
-      // All empty string parameters
+      // Id
       var emptyStringParams = 
         from x in stringParams 
         where string.IsNullOrWhiteSpace((string) x.GetValue(parameters)) 
         select x;
       
-      // Need to remove q2 (empty string parameters) from q0 (all non null parameters) so
-      // we are only left with string characters with a value
-      var validParams = nonNullParams.Where(x => emptyStringParams.All(x0 => x0.Name != x.Name));      
+      // CompanyName, OrderBy, IsDescending
+      var validParams = 
+        nonNullStringParams.Where(x => emptyStringParams.All(x0 => x0.Name != x.Name));      
       
       // Don't include any parameters that can't be matched to fields for the specified type
       var typeFields = typeof(T).GetProperties();
@@ -137,12 +152,13 @@ public class ServiceBase<T> where T : class
         from x in typeFields 
         select x.Name;
       
-      var q6 =
+      // CompanyName
+      var validNonNullStringParams =
         from x in validParams
         where typeFieldNames.Contains(x.Name)
-        select x;  
+        select x;
       
-      foreach (var info in q6)
+      foreach (var info in validNonNullStringParams)
       {
         var field = info.Name;
         var value = info.GetValue(parameters);
@@ -152,6 +168,8 @@ public class ServiceBase<T> where T : class
 
       }
 
+      // todo: create where clause for the other non string type fields
+      
       // This is the default if no sort is specified the query will sort on the primary key
       if (string.IsNullOrWhiteSpace(orderBy))
       {
@@ -161,14 +179,13 @@ public class ServiceBase<T> where T : class
         {
           if (typeFieldNames.Contains(key.Name))
           {
-            var q2 = CreateSelectorExpression(key.Name);
-          
+            var q2 = CreateSelectorExpression(key.Name, key);
+
             if (key.PropertyInfo.PropertyType == typeof(string))
             {
               var q3 = (Expression<Func<T, string>>)q2;
       
               q = q.OrderBy(q3);
-            
             }
             else if (key.PropertyInfo.PropertyType == typeof(byte))
             {
@@ -191,6 +208,13 @@ public class ServiceBase<T> where T : class
               q = q.OrderBy(q3);
             
             }
+            else if (key.PropertyInfo.PropertyType == typeof(long))
+            {
+              var q3 = (Expression<Func<T, long>>)q2;
+      
+              q = q.OrderBy(q3);
+            
+            }
             else if (key.PropertyInfo.PropertyType == typeof(DateTime))
             {
               var q3 = (Expression<Func<T, DateTime>>)q2;
@@ -208,13 +232,44 @@ public class ServiceBase<T> where T : class
       return q.GetPaged(page);
 
     }
-    
-    private static LambdaExpression CreateSelectorExpression(string property)
+
+    private static LambdaExpression CreateSelectorExpression(string property, IPropertyBase key)
     {
       var r = Expression.Parameter(typeof(T));
-      
-      return Expression.Lambda(Expression.PropertyOrField(r, property), r);
-      
+      var expression = Expression.Lambda(Expression.PropertyOrField(r, property), r);
+
+      if (key.PropertyInfo.PropertyType == typeof(string))
+      {
+        return (Expression<Func<T, string>>)expression;
+      }
+
+      if (key.PropertyInfo.PropertyType == typeof(byte))
+      {
+        return (Expression<Func<T, byte>>)expression;
+      }
+
+      if (key.PropertyInfo.PropertyType == typeof(short))
+      {
+        return (Expression<Func<T, short>>)expression;
+      }
+
+      if (key.PropertyInfo.PropertyType == typeof(int))
+      {
+        return (Expression<Func<T, int>>)expression;
+      }
+
+      if (key.PropertyInfo.PropertyType == typeof(long))
+      {
+        return (Expression<Func<T, long>>)expression;
+      }
+
+      if (key.PropertyInfo.PropertyType == typeof(DateTime))
+      {
+        return (Expression<Func<T, DateTime>>)expression;
+      }
+
+      return expression;
+
     }
     
     public PagedResult<T> Find(Page page) =>  _entities?.GetPaged(page);

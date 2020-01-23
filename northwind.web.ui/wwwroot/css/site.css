@@ -102,3 +102,16 @@ textarea:read-only ~ span.invalid {
 .button-a {
   border: none; background: none; cursor: pointer; text-decoration: none; font-size: 1rem;line-height: 1.5;
 }
+
+/* modal */
+.is-nowidth {
+  width: 0;
+}
+
+.toggle ~ .modal {
+  display: none;
+}
+
+.toggle:checked ~ .modal {
+  display: block;
+}

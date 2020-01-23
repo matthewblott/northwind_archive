@@ -1,9 +1,8 @@
 namespace northwind.services
 {
-  public class CustomerQueryParameters : IQueryParameters
+  public class CustomerQueryParameters : QueryParameters, IQueryParameters
   {
-    public string OrderBy { get; set; }
-    public bool IsDescending { get; set; }
     public string Id { get; set; }
+    public string CompanyName { get; set; }
   }
 }

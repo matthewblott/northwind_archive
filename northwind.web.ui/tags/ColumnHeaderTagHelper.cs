@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -12,19 +10,10 @@ namespace northwind.web.ui.tags
   [HtmlTargetElement("col-header")]
   public class ColumnHeaderTagHelper : AnchorTagHelper
   {
-    private IDictionary<string, string> _routeValues;
-
     public ColumnHeaderTagHelper(IHtmlGenerator generator) : base(generator) { }
 
     [HtmlAttributeName("asp-query-parameters")]
     public IQueryParameters QueryParameters { set; get; }
-
-    [HtmlAttributeName("asp-all-route-data", DictionaryAttributePrefix = "asp-route-")]
-    public new IDictionary<string, string> RouteValues
-    {
-      get => _routeValues ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-      set => _routeValues = value;
-    }
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
@@ -44,8 +33,8 @@ namespace northwind.web.ui.tags
 
       AddDescIfRequired();
 
-      if (_routeValues != null && _routeValues.Count > 0)
-        routeValueDictionary = new RouteValueDictionary(_routeValues);
+      if (RouteValues != null && RouteValues.Count > 0)
+        routeValueDictionary = new RouteValueDictionary(RouteValues);
 
       var a = Generator.GenerateActionLink(ViewContext, string.Empty, Action, Controller, Protocol,
         Host, Fragment, routeValueDictionary, null);
@@ -99,7 +88,7 @@ namespace northwind.web.ui.tags
     
     private string OrderBy()
     {
-      _routeValues.TryGetValue("order", out var order);
+      RouteValues.TryGetValue("order", out var order);
 
       return order;
     }
@@ -114,8 +103,10 @@ namespace northwind.web.ui.tags
       var value = !QueryParameters.IsDescending;
       var desc = value.ToString().ToLower();
 
-      _routeValues.Add("desc", desc);
+      RouteValues.Add("desc", desc);
+      
     }
     
   }
+  
 }

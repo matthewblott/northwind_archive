@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace northwind.domain
+﻿namespace northwind.domain.models
 {
-  public class EmployeeTerritories
+  public class EmployeeTerritory
   {
     public string Id { get; set; }
     public long EmployeeId { get; set; }
