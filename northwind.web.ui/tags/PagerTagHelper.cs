@@ -1,4 +1,5 @@
 using cloudscribe.Web.Pagination;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -7,8 +8,11 @@ namespace northwind.web.ui.tags
   [HtmlTargetElement("nw-pager", Attributes = "cs-paging-pagenumber,cs-paging-totalitems")]
   public class PagerTagHelper : cloudscribe.Web.Pagination.PagerTagHelper
   {
-    [HtmlAttributeName("asp-descending")]
-    public bool Descending { get; set; }
+    [HtmlAttributeName("nw-descending")]
+    public bool IsDescending { get; set; }
+    
+    [HtmlAttributeName("nw-order")]
+    public string OrderBy { get; set; }
     
     public PagerTagHelper(IUrlHelperFactory urlHelperFactory, IBuildPaginationLinks linkBuilder = null) 
       : base(urlHelperFactory, linkBuilder)
@@ -32,9 +36,15 @@ namespace northwind.web.ui.tags
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-      RouteValues.Add("desc", Descending.ToString().ToLower());
-      
+      RouteValues.Add("desc", IsDescending.ToString().ToLower());
+      RouteValues.Add("order", OrderBy);
+
+      output.PreElement.AppendHtmlLine("<nav class=\"pagination\" role=\"navigation\">");
+
       base.Process(context, output);
+
+      output.PostElement.AppendHtmlLine("</nav>");
+
     }
     
   }

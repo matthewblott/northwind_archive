@@ -48,16 +48,14 @@
 
 </table>
 
-<nav class="pagination" role="navigation">
-  <nw-pager
-    cs-paging-pagenumber="@Model.PagedResult.PageNumber"
-    cs-paging-pagesize="@Model.PagedResult.PageSize"
-    cs-paging-totalitems="@Model.PagedResult.TotalItems"
-    asp-controller="Categories"
-    asp-action="Index"
-    asp-route-id="@Model.Parameters.Id"
-    asp-route-order="@Model.Parameters.OrderBy"
-    asp-route-name="@Model.Parameters.CategoryName"
-    asp-descending="@Model.Parameters.IsDescending">
-  </nw-pager>
-</nav>
+<nw-pager
+  cs-paging-pagenumber="@Model.PagedResult.PageNumber"
+  cs-paging-pagesize="@Model.PagedResult.PageSize"
+  cs-paging-totalitems="@Model.PagedResult.TotalItems"
+  asp-controller="Categories"
+  asp-action="Index"
+  asp-route-id="@Model.Parameters.Id"
+  asp-route-name="@Model.Parameters.CategoryName"
+  nw-order="@Model.Parameters.OrderBy"
+  nw-descending="@Model.Parameters.IsDescending">
+</nw-pager>

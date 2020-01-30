@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input,textarea,select').forEach((el) =>
     el.addEventListener('invalid', (e) => e.preventDefault(), true));
 
-  const selector1 = 'data-html5-compare';
+  const selector1 = 'data-nw-compare';
 
   document.querySelectorAll(`input[${selector1}]`).forEach((c) => {
     const p = document.getElementById(c.attributes[selector1].value);
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   });
 
-  const selector2 = 'data-html5-action';
+  const selector2 = 'data-nw-action';
 
   document.querySelectorAll(`input[${selector2}]`).forEach((el) => {
 
@@ -22,12 +22,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const action = el.attributes[selector2].value;
 
-      fetch(`/${action}?${el.id}=${el.value}`).then((resp) => resp.json()).then((j) => {
+      const additionalFields = el.getAttribute('data-nw-additional-fields');
+
+      const frm = el.closest('form');
+
+      let urlSuffix = '';
+
+      if(additionalFields !== null) {
+
+        const fields = additionalFields.split(',');
+
+        fields.forEach((fieldName) => {
+
+          const field = frm.querySelector(`#${fieldName}`);
+
+          if(field !== null) {
+            urlSuffix += `&${fieldName}=${field.value}`;
+          }
+
+        });
+
+      }
+
+      fetch(`${action}?${el.id}=${el.value}${urlSuffix}`).then((resp) => resp.json()).then((j) => {
         el.setCustomValidity(j ? '.' : '');
       });
 
     }, true);
 
   });
+
 
 });

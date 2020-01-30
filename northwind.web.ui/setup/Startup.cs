@@ -7,23 +7,20 @@ namespace northwind.web.ui.setup
 {
   public class Startup
   {
-    public Startup(IConfiguration configuration)
-    {
-      Configuration = configuration;
-    }
+    public Startup(IConfiguration configuration) => Configuration = configuration;
 
     public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddUrlHelperServices();
       services.AddAutoMapper();
       services.AddLazyCache();
       services.AddCloudscribePagination();
-      services.AddDomain("DataSource=../data/northwind.db");
+      services.AddDomain();
       services.AddDomainServices();
       services.AddRouting();
       services.AddMvcServices();
-
     }
 
     public void Configure(IApplicationBuilder app)
@@ -32,11 +29,7 @@ namespace northwind.web.ui.setup
       app.UseStaticFiles();
       app.UseRouting();
       app.UseCors();
-      app.UseEndpoints(endpoints =>
-      {
-        endpoints.MapDefaultControllerRoute();
-      });      
-        
+      app.UseEndpoints();
     }
     
   }

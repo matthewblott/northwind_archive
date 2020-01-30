@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using northwind.domain;
 using AutoMapper;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using northwind.services;
 
 namespace northwind.web.ui.setup
@@ -10,9 +13,11 @@ namespace northwind.web.ui.setup
   {
     public static void AddAutoMapper(this IServiceCollection services) => services.AddAutoMapper(typeof(Startup));
 
-    public static void AddDomain(this IServiceCollection services, string connectionString)
+    public static void AddDomain(this IServiceCollection services)
     {
       var optionsBuilder = new DbContextOptionsBuilder();
+
+      const string connectionString = "DataSource=../data/northwind.db";
       
       void OptionsRunner(DbContextOptionsBuilder builder)
       {
@@ -39,6 +44,26 @@ namespace northwind.web.ui.setup
 
     public static void AddMvcServices(this IServiceCollection services) => 
       services.AddMvc().AddRazorRuntimeCompilation();
+
+    public static void AddUrlHelperServices(this IServiceCollection services)
+    {
+      services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+      services.AddScoped(x => {
+        var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+        var factory = x.GetRequiredService<IUrlHelperFactory>();
+        return factory.GetUrlHelper(actionContext);
+      });
+      
+    }
+
+    public static void UseEndpoints(this IApplicationBuilder app)
+    {
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapDefaultControllerRoute();
+      });      
+
+    }
     
   }
   

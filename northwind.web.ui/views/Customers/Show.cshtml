@@ -1,3 +1,20 @@
 @model CustomerViewModel
 
-@await Html.PartialAsync("_Form.cshtml", Model)
+<div class="field is-horizontal">
+  <label class="field-label"></label>
+  <div class="control is-expanded field-body">
+    <partial name="_FormControls" />
+  </div>
+</div>
+
+<form id="new" method="get" asp-action="New">
+</form>
+
+<form id="edit" method="get" asp-action="Edit">
+  <nw-hidden asp-for="Id" />
+</form>
+
+<form id="cancel" method="get" asp-action="Index">
+</form>
+
+<partial name="_Form" model="@Model"/>

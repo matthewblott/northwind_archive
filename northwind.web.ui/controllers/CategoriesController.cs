@@ -20,7 +20,7 @@ namespace northwind.web.ui.controllers
       _mapper = mapper;
     }
 
-    public IActionResult Index(long page, long id, string name, string description, string order, bool desc)
+    public IActionResult Index(long page, string order, bool desc, long id, string name, string description)
     {
       var parameters = new CategoryQueryParameters
       {

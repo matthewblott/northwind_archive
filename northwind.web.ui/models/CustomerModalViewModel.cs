@@ -12,4 +12,5 @@ namespace northwind.web.ui.models
     public string Title => IsNew ? "New" : "Edit";
 
   }
+  
 }

@@ -1,5 +1,5 @@
+@inject IMapper Mapper
 @model CustomersViewModel
-
 
 <table class="table is-striped is-hoverable is-fullwidth">
   <tr>
@@ -9,7 +9,7 @@
     </th>  
     
     <th scope="col" nw-column="CompanyName" asp-controller="Customers" nw-parameters="@Model.Parameters"
-        nw-page="@Model.PagedResult.PageNumber" asp-column-caption="Company">
+        nw-page="@Model.PagedResult.PageNumber" nw-caption="Company">
     </th>
     <th scope="col" nw-column="Region" asp-controller="Customers" nw-parameters="@Model.Parameters"
         nw-page="@Model.PagedResult.PageNumber">
@@ -47,10 +47,8 @@
         <label for="modal__button-@item.Id-1">
           <i class="fa fa-edit has-text-light"></i>
         </label>
-        
-        <input type="hidden">
-        
-        @await Html.PartialAsync("_Modal.cshtml", item.ToModal())
+
+        @await Html.PartialAsync("_Modal.cshtml", Mapper.Map<CustomerModalViewModel>(item))
 
         <a asp-action="Show" asp-route-id="@item.Id">
           <i class="fa fa-eye"></i>
@@ -70,16 +68,14 @@
 
 </table>
 
-<nav class="pagination" role="navigation">
-  <nw-pager
-    cs-paging-pagenumber="@Model.PagedResult.PageNumber"
-    cs-paging-pagesize="@Model.PagedResult.PageSize"
-    cs-paging-totalitems="@Model.PagedResult.TotalItems"
-    asp-controller="Customers"
-    asp-action="Index"
-    asp-route-id="@Model.Parameters.Id"
-    asp-route-order="@Model.Parameters.OrderBy"
-    asp-route-name="@Model.Parameters.CompanyName"
-    asp-descending="@Model.Parameters.IsDescending">
-  </nw-pager>
-</nav>
+<nw-pager
+  cs-paging-pagenumber="@Model.PagedResult.PageNumber"
+  cs-paging-pagesize="@Model.PagedResult.PageSize"
+  cs-paging-totalitems="@Model.PagedResult.TotalItems"
+  asp-controller="Customers"
+  asp-action="Index"
+  asp-route-id="@Model.Parameters.Id"
+  asp-route-name="@Model.Parameters.CompanyName"
+  nw-order="@Model.Parameters.OrderBy"
+  nw-descending="@Model.Parameters.IsDescending">
+</nw-pager>

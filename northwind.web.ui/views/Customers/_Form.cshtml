@@ -1,72 +1,15 @@
 @model CustomerViewModel
 
-<form method="post">
-
-  <div class="field">
-    <label class="label" asp-for="Id"></label>
-    <div class="control">
-      <input class="input validation" asp-for="Id">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="CompanyName"></label>
-    <div class="control">
-      <input class="input validation" asp-for="CompanyName">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="ContactName"></label>
-    <div class="control">
-      <input class="input validation" asp-for="ContactName">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="ContactTitle"></label>
-    <div class="control">
-      <input class="input validation" asp-for="ContactTitle">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="Address"></label>
-    <div class="control">
-      <input class="input validation" asp-for="Address">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="City"></label>
-    <div class="control">
-      <input class="input validation" asp-for="City">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="Region"></label>
-    <div class="control">
-      <input class="input validation" asp-for="Region">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="PostalCode"></label>
-    <div class="control">
-      <input class="input validation" asp-for="PostalCode">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="Country"></label>
-    <div class="control">
-      <input class="input validation" asp-for="Country">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="Phone"></label>
-    <div class="control">
-      <input class="input validation" asp-for="Phone">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="Fax"></label>
-    <div class="control">
-      <input class="input validation" asp-for="Fax">
-    </div>
-  </div>
-
+<form method="post" asp-action="@Model.ActionName" id="save">
+  <nw-field asp-for="Id" nw-is-readonly="@(!Model.IsNew)" />
+  <nw-field asp-for="CompanyName"/>
+  <nw-field asp-for="ContactName"/>
+  <nw-field asp-for="ContactTitle"/>
+  <nw-field asp-for="Address"/>
+  <nw-field asp-for="City"/>
+  <nw-field asp-for="Region"/>
+  <nw-field asp-for="PostalCode"/>
+  <nw-field asp-for="Country"/>
+  <nw-field asp-for="Phone"/>
+  <nw-field asp-for="Fax"/>
 </form>

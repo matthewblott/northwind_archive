@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
@@ -28,7 +27,7 @@ namespace northwind.web.ui.tags
     public string Caption { get; set; }
     
     [HtmlAttributeName("nw-parameters")]
-    public IQueryParameters QueryParameters { set; get; }
+    public IQueryParameters Parameters { set; get; }
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
@@ -59,9 +58,9 @@ namespace northwind.web.ui.tags
         {"order", Column}, {"page", PageNumber.ToString()}
       };
 
-      if (Column == QueryParameters.OrderBy)
+      if (Column == Parameters.OrderBy)
       {
-        routeValues.Add("desc", (!QueryParameters.IsDescending).ToString().ToLower());
+        routeValues.Add("desc", (!Parameters.IsDescending).ToString().ToLower());
       }
 
       var routeValueDictionary = new RouteValueDictionary(routeValues);
@@ -109,9 +108,9 @@ namespace northwind.web.ui.tags
       return icon;
     }
 
-    private bool IsSelected() => QueryParameters.OrderBy == Column;
+    private bool IsSelected() => Parameters.OrderBy == Column;
 
-    private bool IsDescending() => QueryParameters.IsDescending;
+    private bool IsDescending() => Parameters.IsDescending;
     
   }
   

@@ -20,7 +20,7 @@ namespace northwind.web.ui.controllers
       _mapper = mapper;
     }
 
-    public IActionResult Index(long page, string id, string name, string order, bool desc)
+    public IActionResult Index(long page, string order, bool desc, string id, string name)
     {
       var parameters = new CustomerQueryParameters
       {
@@ -28,7 +28,7 @@ namespace northwind.web.ui.controllers
       };
       
       var result = _service.Find(new Page(page), parameters);
-      var result0 =  _mapper.Map<PagedResult<PartialCustomerViewModel>>(result);
+      var result0 =  _mapper.Map<PagedResult<CustomerPartialViewModel>>(result);
       var model = new CustomersViewModel(parameters, result0);
 
       return View(model);
@@ -78,11 +78,11 @@ namespace northwind.web.ui.controllers
     }
     
     [HttpPost]
-    public IActionResult CreatePartial(UpdatePartialCustomerViewModel viewModel)
+    public IActionResult CreatePartial(CustomerUpdatePartialViewModel viewModel)
     {
       var model = new Customer
       {
-        Id = viewModel.Id, CompanyName = viewModel.CompanyName, Region = viewModel.Region
+        Id = viewModel.Id.ToUpper(), CompanyName = viewModel.CompanyName, Region = viewModel.Region
       };
 
       _service.Create(model);
@@ -96,13 +96,15 @@ namespace northwind.web.ui.controllers
     {
       var model =  _mapper.Map<Customer>(viewModel);
       var id = viewModel.Id.ToUpper();
-      var result = _service.Update(model);
+      
+      _service.Update(model);
 
       return RedirectToAction(nameof(Show), new { id });
       
     }
+    
     [HttpPost]
-    public IActionResult UpdatePartial(UpdatePartialCustomerViewModel viewModel)
+    public IActionResult UpdatePartial(CustomerUpdatePartialViewModel viewModel)
     {
       var model = _service.Find(viewModel.Id);
 
@@ -118,11 +120,13 @@ namespace northwind.web.ui.controllers
     [HttpPost]
     public IActionResult Delete(string id)
     {
-      var result = _service.Delete(id);
+       _service.Delete(id);
 
       return RedirectToAction(nameof(Index));
       
-      }
+    }
+
+    public IActionResult IdExists(string id) => Json(_service.Exists(id));
     
   }
   
