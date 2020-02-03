@@ -2,12 +2,13 @@
 
 <form method="post" asp-action="@Model.ActionName" id="save">
   <nw-field asp-for="Id" nw-is-readonly="@(!Model.IsNew)" />
+  <nw-field asp-for="IsActive" />
   <nw-field asp-for="CompanyName"/>
   <nw-field asp-for="ContactName"/>
   <nw-field asp-for="ContactTitle"/>
   <nw-field asp-for="Address"/>
   <nw-field asp-for="City"/>
-  <nw-field asp-for="Region"/>
+  <nw-field-select asp-for="Region" asp-items="Model.Regions" />
   <nw-field asp-for="PostalCode"/>
   <nw-field asp-for="Country"/>
   <nw-field asp-for="Phone"/>

@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using northwind.web.ui.validation;
 
 namespace northwind.web.ui.models
@@ -23,6 +25,8 @@ namespace northwind.web.ui.models
 
     [ReadOnly(true)]
     public string Region { get; set; } = "British Isles";  
+    
+    public SelectList Regions { get; set; }
     public string PostalCode { get; set; }
     public string Country { get; set; }
     public string Phone { get; set; }
@@ -32,6 +36,9 @@ namespace northwind.web.ui.models
     
     public string ActionName => IsNew ? "Create" : "Update";
 
+    [NotMapped]
+    public bool IsActive { get; set; }
+    
   }
   
 }

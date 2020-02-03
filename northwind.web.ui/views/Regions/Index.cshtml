@@ -1,0 +1,65 @@
+@inject IMapper Mapper
+@model RegionsViewModel
+
+<table class="table is-striped is-hoverable is-fullwidth">
+  <tr>
+    <th scope="col" nw-column="Id" asp-controller="Regions" nw-parameters="@Model.Parameters"
+        nw-page="@Model.PagedResult.PageNumber" nw-caption="Company">
+    </th>
+    <th scope="col" nw-column="RegionDescription" asp-controller="Regions" nw-parameters="@Model.Parameters"
+        nw-page="@Model.PagedResult.PageNumber">
+    </th>
+    <th scope="col">
+
+      <input name="modal-toggle" type="radio" class="toggle is-nowidth" id="modal__button-new">
+      <label for="modal__button-new">
+        <i class="fa fa-plus has-text-light"></i>
+      </label>
+      <partial name="_Modal" model="@(new RegionModalViewModel())" />
+      <a asp-action="New">
+        <i class="fa fa-plus"></i>
+      </a>
+    </th>
+  </tr>
+
+  @foreach (var item in Model.PagedResult.Data)
+  {
+    <tr>
+      <td>
+        @item.Id
+      </td>
+      <td>
+        @item.RegionDescription
+      </td>
+      <td>
+        <input name="modal-toggle" type="radio" class="toggle is-nowidth" id="modal__button-@item.Id-1">
+        <label for="modal__button-@item.Id-1">
+          <i class="fa fa-edit has-text-light"></i>
+        </label>
+        <partial name="_Modal" model="@Mapper.Map<RegionModalViewModel>(item)" />
+        <a asp-action="Show" asp-route-id="@item.Id">
+          <i class="fa fa-eye"></i>
+        </a>
+        <form class="is-inline" method="post" asp-controller="Regions" asp-action="Delete" id="items__form-delete-@item.Id">
+          <input type="hidden" name="id" value="@item.Id">
+        </form>
+        <button class="button-a" form="items__form-delete-@item.Id">
+          <i class="fa fa-trash-alt has-text-light"></i>
+        </button>
+      </td>
+    </tr>
+  }
+
+</table>
+
+<nw-pager
+  cs-paging-pagenumber="@Model.PagedResult.PageNumber"
+  cs-paging-pagesize="@Model.PagedResult.PageSize"
+  cs-paging-totalitems="@Model.PagedResult.TotalItems"
+  asp-controller="Regions"
+  asp-action="Index"
+  asp-route-id="@Model.Parameters.Id"
+  asp-route-name="@Model.Parameters.RegionDescription"
+  nw-order="@Model.Parameters.OrderBy"
+  nw-descending="@Model.Parameters.IsDescending">
+</nw-pager>

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +16,7 @@ namespace northwind.web.ui.setup
       services.AddAutoMapper();
       services.AddLazyCache();
       services.AddCloudscribePagination();
+      services.AddCloudscribeNavigation();
       services.AddDomain();
       services.AddDomainServices();
       services.AddRouting();

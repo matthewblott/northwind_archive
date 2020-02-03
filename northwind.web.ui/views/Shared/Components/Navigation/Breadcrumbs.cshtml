@@ -1,0 +1,26 @@
+@model NavigationViewModel
+@if (Model.CurrentNode != null && (Model.ParentChain.Count > 1 || Model.TailCrumbs != null && Model.TailCrumbs.Count > 0))
+{
+  <nav class="breadcrumb">
+    <ul>
+      @foreach (var node in Model.ParentChain.Where(node => !IsNodeEmpty(node)))
+      {
+        if (node.EqualsNode(Model.CurrentNode))
+        {
+          <li class="is-active">@Model.AdjustText(node)</li>
+        }
+        else
+        {
+          <li>
+            <a href="@Url.Content(Model.AdjustUrl(node))">@Model.AdjustText(node)</a>
+          </li>
+        }
+      }
+    </ul>
+  </nav>
+
+}
+@functions{
+  private string GetNodeValue(TreeNode<NavigationNode> node) => Model.AdjustText(node);
+  private bool IsNodeEmpty(TreeNode<NavigationNode> node) => string.IsNullOrWhiteSpace(GetNodeValue(node));
+}

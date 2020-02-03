@@ -16,7 +16,10 @@ namespace northwind.web.ui.setup
       CreateMap<PagedResult<Customer>, PagedResult<CustomerPartialViewModel>>();
       CreateMap<Product, ProductViewModel>().ReverseMap();
       CreateMap<PagedResult<Product>, PagedResult<ProductViewModel>>();
-
+      CreateMap<Region, RegionViewModel>().ReverseMap();
+      CreateMap<Region, RegionPartialViewModel>().ReverseMap();
+      CreateMap<RegionPartialViewModel, RegionModalViewModel>();
+      CreateMap<PagedResult<Region>, PagedResult<RegionPartialViewModel>>();
     }
     
   }

@@ -115,8 +115,9 @@ namespace northwind.domain
 
       builder.Entity<Region>(entity =>
       {
-        entity.Property(e => e.Id).ValueGeneratedNever();
-        entity.Property(e => e.RegionDescription).HasColumnType("VARCHAR(8000)");
+        entity.HasKey(e => e.Id);
+        // entity.Property(e => e.Id).ValueGeneratedNever();
+        // entity.Property(e => e.RegionDescription).HasColumnType("VARCHAR(8000)");
       });
 
       builder.Entity<Shipper>(entity =>

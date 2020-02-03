@@ -5,6 +5,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace northwind.web.ui.tags
 {
@@ -25,8 +26,13 @@ namespace northwind.web.ui.tags
 
       var value = writer.ToString();
       
-      var newValue =  value.MakeHtml5("readonly").MakeHtml5("required").MakeHtml5("data-nw-validation");
-        
+      var newValue =  value
+        .MakeHtml5("readonly")
+        .MakeHtml5("required")
+        .MakeHtml5("selected")
+        .MakeHtml5("disabled")
+        .MakeHtml5("data-nw-validation");
+
       builder.AppendHtmlLine(newValue);
       
     }
@@ -37,7 +43,7 @@ namespace northwind.web.ui.tags
     public static void Add(this AttributeDictionary attributes, string key) 
       => attributes.Add(key, key);
     
-    public static void AddIf(this AttributeDictionary attributes, string key, bool isValid)
+    public static void AddIf(this AttributeDictionary attributes, bool isValid, string key)
     {
       if (isValid)
       {
@@ -46,7 +52,7 @@ namespace northwind.web.ui.tags
       
     }
 
-    public static void AddIf(this AttributeDictionary attributes, string key, string value, bool isValid)
+    public static void AddIf(this AttributeDictionary attributes, bool isValid, string key, string value)
     {
       if (isValid)
       {
@@ -55,19 +61,41 @@ namespace northwind.web.ui.tags
       
     }
     
-    public static void AddCssClassIf(this TagBuilder tag, string value, bool isValid)
+    public static void AddIfMissing(this AttributeDictionary attributes, string key, string value)
+    {
+      var any = attributes.Any(x => x.Key == "type");
+
+      if (!any)
+      {
+        attributes.Add(key, value);
+      }
+      
+    }
+
+    public static void AddIfMissing(this AttributeDictionary attributes, string key, int value)
+    {
+      var any = attributes.Any(x => x.Key == key);
+
+      if (!any)
+      {
+        attributes.Add(key, value);
+      }
+      
+    }
+
+    public static void AddCssClassIf(this TagBuilder tag, bool isValid, string value)
     {
       if (isValid)
       {
         tag.AddCssClass(value); 
       }
-      
+
     }
     
-    public static T Foo<T>(this IEnumerable<object> attributes)
+    public static T GetModelAttribute<T>(this IEnumerable<object> attributes)
     {
       var type = typeof(T);
-      var attribute = (T)attributes.First(x => x.GetType() == type);
+      var attribute = (T)attributes.FirstOrDefault(x => x.GetType() == type);
 
       return attribute;
 
@@ -79,6 +107,24 @@ namespace northwind.web.ui.tags
     public static void Add(this AttributeDictionary attributes, string key, bool value) 
       => attributes.Add(key, value.ToString().ToLower());
 
+    public static bool HasCssClass(this AttributeDictionary attributes, string className)
+    {
+      var value = attributes.FirstOrDefault(x => x.Key == "class").Value;
+
+      if (string.IsNullOrWhiteSpace(value))
+      {
+        return false;
+      }
+
+      var classNames = value.Split(" ");
+      var any = classNames.Any(x => x == className);
+
+      return any;
+
+    }
+
+    public static bool IsMissing(this AttributeDictionary attributes, string key) 
+      => attributes.All(x => x.Key != key);
   }
   
 }

@@ -11,7 +11,9 @@ namespace northwind.web.ui
       CreateWebHostBuilder(args).Build().Run();
     }
 
-    private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-      WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
+    private static IWebHostBuilder CreateWebHostBuilder(string[] args) 
+      => WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
+    
   }
+  
 }

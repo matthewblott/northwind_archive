@@ -1,4 +1,3 @@
-using LazyCache;
 using northwind.domain;
 using northwind.domain.models;
 
@@ -6,11 +5,8 @@ namespace northwind.services
 {
   public class CategoryService : ServiceBase<Category>, ICategoryService
   {
-    private readonly IAppCache _cache;
-
-    public CategoryService(IContext db, IAppCache cache) : base(db, db.Categories)
+    public CategoryService(IContext db) : base(db, db.Categories)
     {
-      _cache = cache;
     }
 
     public new int Create(Category entity)

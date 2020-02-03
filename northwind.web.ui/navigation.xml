@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NavNode key="Home" parentKey="RootNode" controller="Home" action="Index" text="Home">
+  <Children>
+
+    <!-- Customers -->
+    <NavNode key="Customers.Index" controller="Customers" action="Index" text="Customers">
+      <Children>
+        <NavNode key="Customers.New" controller="Customers" action="New" text="New" />
+        <NavNode key="Customers.Edit" controller="Customers" action="Edit" preservedRouteParameters="id" />
+        <NavNode key="Customers.Show" controller="Customers" action="Show" preservedRouteParameters="id" />
+      </Children>
+    </NavNode>
+  </Children>
+</NavNode>

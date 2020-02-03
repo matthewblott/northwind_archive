@@ -55,6 +55,10 @@ input[type="radio"][required]:invalid ~ span[data-nw-validation]::before {
   min-width: 500px;
 }
 
+.modal-background {
+  background-color: rgba(10,10,10,.4);
+}
+
 /* controls */
 input.input:focus {
   background-color: lightyellow;
@@ -104,4 +108,10 @@ input.input, textarea.textarea {
 
 .mr-2 {
   margin-right: 0.5rem !important;
+}
+
+/* bulma navbar fix */
+.breadcrumb ul li:last-child::before {
+  color: #7a8288;
+  content: "\0002f\2007" !important;
 }

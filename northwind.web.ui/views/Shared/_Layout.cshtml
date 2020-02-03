@@ -23,18 +23,27 @@
       <a class="navbar-item" asp-controller="Home" asp-action="Index">
         Home
       </a>
-      <a class="navbar-item" asp-controller="Customers" asp-action="Index">
-        Customers
-      </a>
       <a class="navbar-item" asp-controller="Categories" asp-action="Index">
         Categories
+      </a>
+      <a class="navbar-item" asp-controller="Customers" asp-action="Index">
+        Customers
       </a>
       <a class="navbar-item" asp-controller="Products" asp-action="Index">
         Products
       </a>
+      <a class="navbar-item" asp-controller="Regions" asp-action="Index">
+        Regions
+      </a>
     </div>
   </div>
 </nav>
+
+<div class="container is-fluid">
+  <div class="is-pulled-left">
+    @await Component.InvokeAsync("Navigation", new { viewName = "Breadcrumbs", filterName = "Breadcrumbs", startingNodeKey = "" })
+  </div>
+</div>
 
 <div class="pb-2"></div>
 
