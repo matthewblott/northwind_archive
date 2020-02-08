@@ -10,6 +10,7 @@ namespace northwind.services
     {
     }
     
+    
     public new int Create(Customer entity)
     {
       var retVal = base.Create(entity);
@@ -19,7 +20,30 @@ namespace northwind.services
       return retVal;
     
     }
+    public int CreatePartial(CustomerUpdatePartial entity)
+    {
+      var currentEntity = Find(entity.Id);
 
+      currentEntity.CompanyName = entity.CompanyName;
+      currentEntity.Region = entity.Region;
+      
+      var retVal = base.Create(currentEntity);
+      
+      _db.Commit();
+    
+      return retVal;
+
+    }
+
+    public new bool Update(Customer entity)
+    {
+      var retVal = base.Update(entity);
+      
+      _db.Commit();
+    
+      return retVal;
+    
+    }
     public bool UpdatePartial(CustomerUpdatePartial entity)
     {
       var currentEntity = Find(entity.Id);
@@ -33,17 +57,6 @@ namespace northwind.services
     
       return retVal;
 
-    }
-    
-    
-    public new bool Update(Customer entity)
-    {
-      var retVal = base.Update(entity);
-      
-      _db.Commit();
-    
-      return retVal;
-    
     }
     
     public new bool Delete(params object[] keyValues)

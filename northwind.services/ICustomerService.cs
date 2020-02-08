@@ -8,6 +8,7 @@ namespace northwind.services
   public interface ICustomerService : IServiceActions<Customer>
   {
     PagedResult<Customer> Find(Pager pager, IQueryValues values, string orderBy = "", bool isDescending = false);
+    int CreatePartial(CustomerUpdatePartial entity);
     bool UpdatePartial(CustomerUpdatePartial entity);
   }
   

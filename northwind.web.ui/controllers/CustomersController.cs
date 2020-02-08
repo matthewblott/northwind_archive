@@ -39,8 +39,9 @@ namespace northwind.web.ui.controllers
 
     public IActionResult New()
     {
-      var viewModel =  new CustomerViewModel();
-      
+      var viewModel = new CustomerViewModel {Regions = GetRegions()};
+
+
       return View(viewModel);
       
     }
@@ -86,12 +87,9 @@ namespace northwind.web.ui.controllers
     [HttpPost]
     public IActionResult CreatePartial(CustomerUpdatePartialViewModel viewModel)
     {
-      var model = new Customer
-      {
-        Id = viewModel.Id.ToUpper(), CompanyName = viewModel.CompanyName, Region = viewModel.Region
-      };
+      var model =  _mapper.Map<CustomerUpdatePartial>(viewModel);
 
-      _customerService.Create(model);
+      _customerService.CreatePartial(model);
 
       return Redirect(viewModel.ReturnUrl);
 
@@ -135,7 +133,8 @@ namespace northwind.web.ui.controllers
     {
       var regions = _regionService.Find(new Pager(1));
       var items = regions.Data;
-      var selectList = new SelectList(items, nameof(Region.RegionDescription),  nameof(Region.RegionDescription));
+      var selectList = new SelectList(items, nameof(Region.RegionDescription),  
+        nameof(Region.RegionDescription));
     
       return selectList;
     
