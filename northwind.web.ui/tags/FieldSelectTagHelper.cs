@@ -25,16 +25,14 @@ namespace northwind.web.ui.tags
     private bool IsDisplay => IsOfType(typeof(DisplayAttribute));
     private IEnumerable<object> GetModelAttributes()
       => (For.ModelExplorer.Metadata as DefaultModelMetadata)?.Attributes.Attributes;
-
     private bool IsOfType(Type type) => GetModelAttributes()?.Any(x => x.GetType() == type) ?? false;
-
-    public FieldSelectTagHelper(IHtmlGenerator generator)
-    {
-      
-    }
-
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
+      if (Items == null)
+      {
+        throw new NullReferenceException();
+      }
+      
       output.TagName = null;
       output.TagMode = TagMode.StartTagAndEndTag;
 
@@ -75,7 +73,7 @@ namespace northwind.web.ui.tags
       option0.Attributes.AddIf(!any, "selected");
       
       select1.InnerHtml.AppendHtml(option0);
-      
+
       foreach (var item in Items)
       {
         var option1 = new TagBuilder("option");

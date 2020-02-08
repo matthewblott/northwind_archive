@@ -1,35 +1,30 @@
 @inject IMapper Mapper
-@model CustomersViewModel
+@model IndexViewModel<CustomerPartialViewModel>
 
 <table class="table is-striped is-hoverable is-fullwidth">
   <tr>
-    <th scope="col">@(Html.DisplayName<CustomerViewModel>(m => m.Id))
-      <col-header asp-query-parameters="@Model.Parameters" 
-                  asp-controller="Customers" asp-action="Index" asp-route-order="Id" />
-    </th>  
-    
-    <th scope="col" nw-column="CompanyName" asp-controller="Customers" nw-parameters="@Model.Parameters"
-        nw-page="@Model.PagedResult.PageNumber" nw-caption="Company">
+    <th scope="col" nw-column="Id" asp-controller="Customers" nw-page="@Model.Pager.PageNumber" 
+        nw-order="@Model.OrderBy" nw-descending="@Model.IsDescending">
     </th>
-    <th scope="col" nw-column="Region" asp-controller="Customers" nw-parameters="@Model.Parameters"
-        nw-page="@Model.PagedResult.PageNumber">
+    <th scope="col" nw-column="CompanyName" asp-controller="Customers" nw-order="@Model.OrderBy" 
+        nw-page="@Model.Pager.PageNumber" nw-caption="Company" nw-descending="@Model.IsDescending">
+    </th>
+    <th scope="col" nw-column="Region" asp-controller="Customers" nw-page="@Model.Pager.PageNumber" 
+       nw-order="@Model.OrderBy" nw-descending="@Model.IsDescending">
     </th>
     <th scope="col">
-
       <input name="modal-toggle" type="radio" class="toggle is-nowidth" id="modal__button-new">
       <label for="modal__button-new">
         <i class="fa fa-plus has-text-light"></i>
       </label>
-
-      @await Html.PartialAsync("_Modal.cshtml", new CustomerModalViewModel())
-
+      <partial name="_Modal" model="@(new CustomerModalViewModel())" />
       <a asp-action="New">
         <i class="fa fa-plus"></i>
       </a>
     </th>
   </tr>
 
-  @foreach (var item in Model.PagedResult.Data)
+  @foreach (var item in Model.Data)
   {
     <tr>
       <td>
@@ -42,26 +37,20 @@
         @item.Region
       </td>
       <td>
-
         <input name="modal-toggle" type="radio" class="toggle is-nowidth" id="modal__button-@item.Id-1">
         <label for="modal__button-@item.Id-1">
           <i class="fa fa-edit has-text-light"></i>
         </label>
-
-        @await Html.PartialAsync("_Modal.cshtml", Mapper.Map<CustomerModalViewModel>(item))
-
+        <partial name="_Modal" model="@Mapper.Map<CustomerModalViewModel>(item)"/>
         <a asp-action="Show" asp-route-id="@item.Id">
           <i class="fa fa-eye"></i>
         </a>
-        
         <form class="is-inline" method="post" asp-controller="Customers" asp-action="Delete" id="customers__form-delete-@item.Id">
           <input type="hidden" name="id" value="@item.Id">
         </form>
-        
         <button class="button-a" form="customers__form-delete-@item.Id">
           <i class="fa fa-trash-alt has-text-light"></i>
         </button>
-        
       </td>
     </tr>
   }
@@ -69,13 +58,12 @@
 </table>
 
 <nw-pager
-  cs-paging-pagenumber="@Model.PagedResult.PageNumber"
-  cs-paging-pagesize="@Model.PagedResult.PageSize"
-  cs-paging-totalitems="@Model.PagedResult.TotalItems"
+  cs-paging-pagenumber="@Model.Pager.PageNumber"
+  cs-paging-pagesize="@Model.Pager.PageSize"
+  cs-paging-totalitems="@Model.Pager.TotalItems"
   asp-controller="Customers"
   asp-action="Index"
-  asp-route-id="@Model.Parameters.Id"
-  asp-route-name="@Model.Parameters.CompanyName"
-  nw-order="@Model.Parameters.OrderBy"
-  nw-descending="@Model.Parameters.IsDescending">
+  nw-query-values="@Model.QueryValues"
+  nw-order="@Model.OrderBy"
+  nw-descending="@Model.IsDescending">
 </nw-pager>

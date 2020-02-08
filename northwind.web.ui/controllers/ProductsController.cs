@@ -27,7 +27,7 @@ namespace northwind.web.ui.controllers
         Id = id, OrderBy = order, IsDescending = desc, ProductName = name
       };
       
-      var result = _service.Find(new Page(page), parameters);
+      var result = _service.Find(new Pager(page), parameters);
       var result0 =  _mapper.Map<PagedResult<ProductViewModel>>(result);
       var model = new ProductsViewModel(parameters, result0);
 

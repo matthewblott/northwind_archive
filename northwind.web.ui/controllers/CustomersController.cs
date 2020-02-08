@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
-using cloudscribe.Pagination.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using northwind.domain.models;
 using northwind.services;
+using northwind.services.commands;
 using northwind.services.types;
 using northwind.web.ui.models;
 
@@ -23,18 +24,16 @@ namespace northwind.web.ui.controllers
       _regionService = regionService;
     }
 
-    public IActionResult Index(long page, string order, bool desc, string id, string name)
+    public IActionResult Index(long page, string order, bool desc, string id, string companyName, string region)
     {
-      var parameters = new CustomerQueryParameters
-      {
-        Id = id, OrderBy = order, IsDescending = desc, CompanyName = name
-      };
+      var values = new QueryValues { {nameof(id), id}, {nameof(companyName), companyName}, {nameof(region), region},};
+      var result = _customerService.Find(new Pager(page), values, order, desc);
+      var data = result.Data;
+      var mappedResult =  _mapper.Map<IEnumerable<CustomerPartialViewModel>>(data);
+      var viewModel = new IndexViewModel<CustomerPartialViewModel>(
+        mappedResult, new Pager(page, result.TotalItems), values, order, desc);
       
-      var result = _customerService.Find(new Page(page), parameters);
-      var result0 =  _mapper.Map<PagedResult<CustomerPartialViewModel>>(result);
-      var model = new CustomersViewModel(parameters, result0);
-
-      return View(model);
+      return View(viewModel);
       
     }
 
@@ -61,6 +60,8 @@ namespace northwind.web.ui.controllers
     {
       var model = _customerService.Find(id.ToUpper());
       var viewModel =  _mapper.Map<CustomerViewModel>(model);
+
+      viewModel.Regions = GetRegions();
       
       return View(viewModel);
       
@@ -111,12 +112,9 @@ namespace northwind.web.ui.controllers
     [HttpPost]
     public IActionResult UpdatePartial(CustomerUpdatePartialViewModel viewModel)
     {
-      var model = _customerService.Find(viewModel.Id);
+      var model =  _mapper.Map<CustomerUpdatePartial>(viewModel);
 
-      model.CompanyName = viewModel.CompanyName;
-      model.Region = viewModel.Region;
-      
-      _customerService.Update(model);
+      _customerService.UpdatePartial(model);
       
       return Redirect(viewModel.ReturnUrl);
       
@@ -135,7 +133,7 @@ namespace northwind.web.ui.controllers
    
     private SelectList GetRegions()
     {
-      var regions = _regionService.Find(new Page(1));
+      var regions = _regionService.Find(new Pager(1));
       var items = regions.Data;
       var selectList = new SelectList(items, nameof(Region.RegionDescription),  nameof(Region.RegionDescription));
     

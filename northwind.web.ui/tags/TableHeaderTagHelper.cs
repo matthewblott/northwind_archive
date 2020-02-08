@@ -13,6 +13,12 @@ namespace northwind.web.ui.tags
   [HtmlTargetElement("th")]
   public class TableHeaderTagHelper : AnchorTagHelper
   {
+    [HtmlAttributeName("nw-descending")]
+    public bool IsDescending { get; set; }
+    
+    [HtmlAttributeName("nw-order")]
+    public string OrderBy { get; set; }
+    
     [HtmlAttributeName("nw-column")]
     public string Column { get; set; }
 
@@ -26,9 +32,6 @@ namespace northwind.web.ui.tags
     [HtmlAttributeName("nw-caption")]
     public string Caption { get; set; }
     
-    [HtmlAttributeName("nw-parameters")]
-    public IQueryParameters Parameters { set; get; }
-
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
       if (string.IsNullOrWhiteSpace(Column))
@@ -52,15 +55,14 @@ namespace northwind.web.ui.tags
 
     private TagBuilder A()
     {
-
       var routeValues = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
       {
         {"order", Column}, {"page", PageNumber.ToString()}
       };
 
-      if (Column == Parameters.OrderBy)
+      if (Column == OrderBy)
       {
-        routeValues.Add("desc", (!Parameters.IsDescending).ToString().ToLower());
+        routeValues.Add("desc", (!IsDescending).ToString().ToLower());
       }
 
       var routeValueDictionary = new RouteValueDictionary(routeValues);
@@ -91,7 +93,7 @@ namespace northwind.web.ui.tags
     private TagBuilder UpIcon()
     {
       var icon = new TagBuilder("i");
-      var color = IsSelected() && !IsDescending() ? "white" : "grey-light";
+      var color = IsSelected() && !IsDescending ? "white" : "grey-light";
 
       icon.Attributes.Add("class", $"fa fa-sort-up fa-stack-1x has-text-{color}");
 
@@ -101,17 +103,15 @@ namespace northwind.web.ui.tags
     private TagBuilder DownIcon()
     {
       var icon = new TagBuilder("i");
-      var color = IsSelected() && IsDescending() ? "white" : "grey-light";
+      var color = IsSelected() && IsDescending ? "white" : "grey-light";
 
       icon.Attributes.Add("class", $"fa fa-sort-down fa-stack-1x has-text-{color}");
 
       return icon;
     }
 
-    private bool IsSelected() => Parameters.OrderBy == Column;
-
-    private bool IsDescending() => Parameters.IsDescending;
-    
+    private bool IsSelected() => OrderBy == Column;
+ 
   }
   
 }

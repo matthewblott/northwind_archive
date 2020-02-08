@@ -1,7 +1,9 @@
+using System.Linq;
 using cloudscribe.Web.Pagination;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using northwind.services.types;
 
 namespace northwind.web.ui.tags
 {
@@ -13,6 +15,9 @@ namespace northwind.web.ui.tags
     
     [HtmlAttributeName("nw-order")]
     public string OrderBy { get; set; }
+    
+    [HtmlAttributeName("nw-query-values")]
+    public IQueryValues QueryValues { get; set; } = new QueryValues();
     
     public PagerTagHelper(IUrlHelperFactory urlHelperFactory, IBuildPaginationLinks linkBuilder = null) 
       : base(urlHelperFactory, linkBuilder)
@@ -39,6 +44,11 @@ namespace northwind.web.ui.tags
       RouteValues.Add("desc", IsDescending.ToString().ToLower());
       RouteValues.Add("order", OrderBy);
 
+      foreach (var (key, value) in QueryValues.Where(kv => kv.Value != null))
+      {
+        RouteValues.Add(key, value.ToString());
+      }
+      
       output.PreElement.AppendHtmlLine("<nav class=\"pagination\" role=\"navigation\">");
 
       base.Process(context, output);

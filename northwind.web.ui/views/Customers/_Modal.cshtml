@@ -1,7 +1,6 @@
 @model CustomerModalViewModel
 
 <div class="modal is-active">
-  
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
@@ -10,7 +9,7 @@
     <section class="modal-card-body">
       <div class="content">
         <form method="post" id="modal__form-@Model.ElementId">
-          <input type="hidden" name="ReturnUrl" value="@EncodedUrl">
+          <input type="hidden" name="ReturnUrl" value="@Context.Request.GetEncodedUrl()">
           <nw-field nw-is-validation="true" asp-for="Id" />
           <nw-field nw-is-validation="true" asp-for="CompanyName" />
           <nw-field nw-is-validation="true" asp-for="Region" />
@@ -18,24 +17,10 @@
       </div>
     </section>
     <footer class="modal-card-foot">
-      
-      @if (Model.IsNew)
-      {
-        <button asp-controller="Customers" asp-action="CreatePartial" class="button is-success" form="modal__form-@Model.ElementId">@Model.SaveText</button>
-      }
-      else
-      {
-        <button asp-controller="Customers" asp-action="UpdatePartial" class="button is-success" form="modal__form-@Model.ElementId">@Model.SaveText</button>
-      }
-
+      <button asp-controller="Customers" asp-action="@Model.Action" class="button is-success" 
+              form="modal__form-@Model.ElementId">@Model.SaveText</button>
       <label class="button" for="modal__button-@Model.ElementId-2">Cancel</label>
       <input name="modal-toggle" type="radio" class="is-nowidth" id="modal__button-@Model.ElementId-2">
     </footer>
   </div>
 </div>
-
-@functions{
-
-  string EncodedUrl => Context.Request.GetEncodedUrl();
-
-}

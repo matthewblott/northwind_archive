@@ -81,9 +81,115 @@ public class ServiceBase<T> where T : class
       
     }
 
-    public IEnumerable<T> Find(IQueryParameters parameters) => Find(new Page(1), parameters).Data;
+    public IEnumerable<T> Find(IQueryParameters parameters) => Find(new Pager(1), parameters).Data;
 
-    public PagedResult<T> Find(Page page, IQueryParameters parameters)
+    public PagedResult<T> Find(Pager pager, IQueryValues values, string orderBy = "", bool isDescending = false)
+    {
+      // todo: Humanize the values
+      
+      var q = 
+        from e in _entities 
+        select e;
+
+      if (!string.IsNullOrWhiteSpace(orderBy) && !isDescending)
+      {
+        var orderByExpression = GetOrderByExpression(orderBy);
+        q = q.OrderBy(orderByExpression);
+      }
+
+      if (!string.IsNullOrWhiteSpace(orderBy) && isDescending)
+      {
+        var orderByExpression = GetOrderByExpression(orderBy);
+        q = q.OrderByDescending(orderByExpression);
+      }
+
+      var typeFieldNames = 
+        from x in typeof(T).GetProperties() 
+        select x.Name;
+      
+      var values0 = values
+        .Where(p1 => p1.Key != "order")
+        .Where(p2 => p2.Value != null)
+        .Where(p3 => p3.Value is string)
+        .Where(p4 => !string.IsNullOrWhiteSpace(p4.Value.ToString()))
+        .Where(p5 => typeFieldNames.Contains(p5.Key));
+
+      foreach (var pair in values0)
+      {
+        var field = pair.Key;
+        var value = pair.Value;
+        var expression = GetExpresionTree(field, value);
+        
+        q = q.Where(expression);
+                
+      }
+      
+      // todo: create where clause for the other non string type fields
+      
+      // This is the default if no sort is specified the query will sort on the primary key
+      if (string.IsNullOrWhiteSpace(orderBy))
+      {
+        var keys = Keys();
+      
+        foreach (var key in keys)
+        {
+          if (typeFieldNames.Contains(key.Name))
+          {
+            var q2 = CreateSelectorExpression(key.Name, key);
+
+            if (key.PropertyInfo.PropertyType == typeof(string))
+            {
+              var q3 = (Expression<Func<T, string>>)q2;
+      
+              q = q.OrderBy(q3);
+            }
+            else if (key.PropertyInfo.PropertyType == typeof(byte))
+            {
+              var q3 = (Expression<Func<T, byte>>)q2;
+      
+              q = q.OrderBy(q3);
+            
+            }
+            else if (key.PropertyInfo.PropertyType == typeof(short))
+            {
+              var q3 = (Expression<Func<T, short>>)q2;
+      
+              q = q.OrderBy(q3);
+            
+            }
+            else if (key.PropertyInfo.PropertyType == typeof(int))
+            {
+              var q3 = (Expression<Func<T, int>>)q2;
+      
+              q = q.OrderBy(q3);
+            
+            }
+            else if (key.PropertyInfo.PropertyType == typeof(long))
+            {
+              var q3 = (Expression<Func<T, long>>)q2;
+      
+              q = q.OrderBy(q3);
+            
+            }
+            else if (key.PropertyInfo.PropertyType == typeof(DateTime))
+            {
+              var q3 = (Expression<Func<T, DateTime>>)q2;
+      
+              q = q.OrderBy(q3);
+            
+            }
+          
+          }
+        
+        }
+        
+      }
+      
+      return q.GetPaged(pager);
+
+    }
+
+    public PagedResult<T> Find(Pager pager, IQueryParameters parameters)
     {
       // customers?order=Region&page=1&desc=true&company=Fra&Id=
       // OrderBy = "Region"
@@ -229,7 +335,7 @@ public class ServiceBase<T> where T : class
         
       }
       
-      return q.GetPaged(page);
+      return q.GetPaged(pager);
 
     }
 
@@ -272,9 +378,9 @@ public class ServiceBase<T> where T : class
 
     }
     
-    public PagedResult<T> Find(Page page) =>  _entities?.GetPaged(page);
+    public PagedResult<T> Find(Pager pager) =>  _entities?.GetPaged(pager);
     
-    public PagedResult<T> Find(Page page, Expression<Func<T, bool>> expression) => _entities?.GetPaged(expression, page);
+    public PagedResult<T> Find(Pager pager, Expression<Func<T, bool>> expression) => _entities?.GetPaged(expression, pager);
     public T Find(params object[] keyValues) => _entities.Find(keyValues);
     public bool Exists(params object[] keyValues) => Find(keyValues) != null;
     public bool DoesNotExist(params object[] keyValues) => Find(keyValues) == null;

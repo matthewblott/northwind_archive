@@ -21,7 +21,7 @@ namespace northwind.web.ui.controllers
     {
       var parameters = new RegionQueryParameters();
       
-      var result = _regionService.Find(new services.types.Page(1));
+      var result = _regionService.Find(new services.types.Pager(1));
       var mappedResult =  _mapper.Map<PagedResult<RegionPartialViewModel>>(result);
       var viewModel = new RegionsViewModel(parameters, mappedResult);
 

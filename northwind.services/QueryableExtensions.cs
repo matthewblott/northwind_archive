@@ -9,10 +9,10 @@ namespace northwind.services
 {
   public static class QueryableExtensions
   {
-    public static PagedResult<T> GetPaged<T>(this IQueryable<T> query, Page page) where T : class
+    public static PagedResult<T> GetPaged<T>(this IQueryable<T> query, Pager pager) where T : class
     {
-      var pageNumber = page.PageNumber;
-      var pageSize = page.PageSize;
+      var pageNumber = pager.PageNumber;
+      var pageSize = pager.PageSize;
       var currentPageNum = pageNumber;
       var offset = (pageSize * currentPageNum) - pageSize;
       var offset0 = offset > int.MaxValue ? 0 : (int)offset;
@@ -45,10 +45,10 @@ namespace northwind.services
     }
 
     public static PagedResult<T> GetPaged<T>(this IQueryable<T> query,
-      Expression<Func<T, bool>> predicate, Page page) where T : class
+      Expression<Func<T, bool>> predicate, Pager pager) where T : class
     {
-      var pageNumber = page.PageNumber;
-      var pageSize = page.PageSize;
+      var pageNumber = pager.PageNumber;
+      var pageSize = pager.PageSize;
       var currentPageNum = pageNumber;
       var offset = (pageSize * currentPageNum) - pageSize;
       var query0 =  query.Where(predicate);

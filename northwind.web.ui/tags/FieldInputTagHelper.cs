@@ -135,6 +135,7 @@ namespace northwind.web.ui.tags
         input1.Attributes.Add("data-show-header", false);
         input1.Attributes.Add("data-color", "dark");
         input1.Attributes.Add("date-date-format", "YYYY-MM-DD");
+        input1.MergeAttribute("value", $"{For.Model:yyyy-MM-dd}");
       }
 
       if (IsDateTime && !IsReadOnlyResult)
@@ -143,6 +144,7 @@ namespace northwind.web.ui.tags
         input1.Attributes.Add("data-show-header", false);
         input1.Attributes.Add("data-color", "dark");
         input1.Attributes.Add("date-date-format", "YYYY-MM-DD HH:mm");
+        input1.MergeAttribute("value", $"{For.Model:yyyy-MM-dd HH:mm}");
       }
 
       if (IsRegularExpression)

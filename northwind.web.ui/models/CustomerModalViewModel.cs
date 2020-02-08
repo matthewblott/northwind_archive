@@ -1,3 +1,5 @@
+using northwind.common.mapping;
+
 namespace northwind.web.ui.models
 {
   public class CustomerModalViewModel
@@ -10,6 +12,7 @@ namespace northwind.web.ui.models
     public string ElementId => IsNew ? "new" : Id;
     public string SaveText => IsNew ? "Create" : "Save";
     public string Title => IsNew ? "[New]" : Id;
+    public string Action => IsNew ? "CreatePartial" : "UpdatePartial";
 
   }
   

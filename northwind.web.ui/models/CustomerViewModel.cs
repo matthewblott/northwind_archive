@@ -2,11 +2,13 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using northwind.common.mapping;
+using northwind.domain.models;
 using northwind.web.ui.validation;
 
 namespace northwind.web.ui.models
 {
-  public class CustomerViewModel
+  public class CustomerViewModel : IMapFrom<Customer>, IMapTo<Customer>
   {
     [Required]
     [StringLength(6, MinimumLength = 1)]
