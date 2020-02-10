@@ -2,9 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using northwind.domain;
 using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using northwind.reporting;
 using northwind.services;
 using northwind.web.ui.filters;
   
@@ -33,7 +36,7 @@ namespace northwind.web.ui.setup
 
     }
 
-    public static void AddDomainServices(this IServiceCollection services)
+    public static void AddConventionalServices(this IServiceCollection services)
     {
       services.AddScoped<IRegionService, RegionService>();
       services.AddScoped<ICategoryService, CategoryService>();
@@ -53,6 +56,12 @@ namespace northwind.web.ui.setup
       
     }
 
+    public static void AddReporting(this IServiceCollection services)
+    {
+      services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+      services.AddScoped<IReportService, ReportService>();
+    }
+    
     public static void AddUrlHelperServices(this IServiceCollection services)
     {
       services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();

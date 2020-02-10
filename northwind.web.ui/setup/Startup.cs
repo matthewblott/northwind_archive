@@ -18,7 +18,8 @@ namespace northwind.web.ui.setup
       services.AddCloudscribePagination();
       services.AddCloudscribeNavigation();
       services.AddDomain();
-      services.AddDomainServices();
+      services.AddConventionalServices();
+      services.AddReporting();
       services.AddRouting();
       services.AddMvcServices();
     }
