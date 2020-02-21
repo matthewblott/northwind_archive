@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace northwind.domain.models
+﻿namespace northwind.domain.models
 {
-  public partial class Territory
+  using RegionType = types.Region;
+  
+  public class Territory
   {
     public string Id { get; set; }
-    public string TerritoryDescription { get; set; }
-    public long RegionId { get; set; }
+    public string Description { get; set; }
+    public RegionType Region { get; set; }
   }
 }

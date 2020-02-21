@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-
 namespace northwind.web.ui.tags
 {
+  using Microsoft.AspNetCore.Mvc.Rendering;
+  using Microsoft.AspNetCore.Mvc.TagHelpers;
+  using Microsoft.AspNetCore.Mvc.ViewFeatures;
+  using Microsoft.AspNetCore.Razor.TagHelpers;
+  
   [HtmlTargetElement("nw-hidden")]
   public class HiddenTagHelper : InputTagHelper
   {

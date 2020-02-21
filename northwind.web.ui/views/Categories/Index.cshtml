@@ -1,15 +1,16 @@
-@model CategoriesViewModel
+@inject IMapper Mapper
+@model IndexViewModel<CategoryServiceModel>
 
 <table class="table is-striped is-hoverable is-fullwidth">
   <tr>
-    <th scope="col" nw-column="Id" asp-controller="Categories" nw-parameters="@Model.Parameters"
-        nw-page="@Model.PagedResult.PageNumber" asp-for="PagedResult">
+    <th scope="col" nw-column="Id" asp-controller="Categories" nw-page="@Model.Pager.PageNumber"
+        nw-order="@Model.OrderBy" nw-descending="@Model.IsDescending">
     </th>
-    <th scope="col" nw-column="CategoryName" asp-controller="Categories" nw-parameters="@Model.Parameters"
-        nw-page="@Model.PagedResult.PageNumber">
+    <th scope="col" nw-column="CategoryName" asp-controller="Categories" nw-order="@Model.OrderBy"
+        nw-page="@Model.Pager.PageNumber" nw-caption="Company" nw-descending="@Model.IsDescending">
     </th>
-    <th scope="col" nw-column="Description" asp-controller="Categories" nw-parameters="@Model.Parameters"
-        nw-page="@Model.PagedResult.PageNumber">
+    <th scope="col" nw-column="Description" asp-controller="Categories" nw-page="@Model.Pager.PageNumber"
+        nw-order="@Model.OrderBy" nw-descending="@Model.IsDescending">
     </th>
     <th scope="col">
       <a asp-action="New">
@@ -18,7 +19,7 @@
     </th>
   </tr>
 
-  @foreach (var item in Model.PagedResult.Data)
+  @foreach (var item in Model.Data)
   {
     <tr>
       <td>
@@ -31,14 +32,6 @@
         @item.Description
       </td>
       <td>
-
-        <input name="modal-toggle" type="radio" class="toggle is-nowidth" id="x@(item.Id)">
-        <label for="x@(item.Id)">
-          <i class="fa fa-eye"></i>
-        </label>
-
-        @await Html.PartialAsync("_Modal.cshtml", item)
-
         <a asp-action="Show" asp-route-id="@item.Id">
           <i class="fa fa-eye"></i>
         </a>
@@ -49,13 +42,12 @@
 </table>
 
 <nw-pager
-  cs-paging-pagenumber="@Model.PagedResult.PageNumber"
-  cs-paging-pagesize="@Model.PagedResult.PageSize"
-  cs-paging-totalitems="@Model.PagedResult.TotalItems"
+  cs-paging-pagenumber="@Model.Pager.PageNumber"
+  cs-paging-pagesize="@Model.Pager.PageSize"
+  cs-paging-totalitems="@Model.Pager.TotalItems"
   asp-controller="Categories"
   asp-action="Index"
-  asp-route-id="@Model.Parameters.Id"
-  asp-route-name="@Model.Parameters.CategoryName"
-  nw-order="@Model.Parameters.OrderBy"
-  nw-descending="@Model.Parameters.IsDescending">
+  nw-query-values="@Model.QueryValues"
+  nw-order="@Model.OrderBy"
+  nw-descending="@Model.IsDescending">
 </nw-pager>

@@ -1,17 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Humanizer;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-
 namespace northwind.web.ui.tags
 {
+  using System;
+  using System.Collections.Generic;
+  using System.ComponentModel.DataAnnotations;
+  using System.Linq;
+  using Humanizer;
+  using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+  using Microsoft.AspNetCore.Mvc.Rendering;
+  using Microsoft.AspNetCore.Mvc.ViewFeatures;
+  using Microsoft.AspNetCore.Razor.TagHelpers;
+  
   [HtmlTargetElement("nw-field-select")]
-  public class FieldSelectTagHelper : TagHelper
+    public class FieldSelectTagHelper : TagHelper
   {
     private const string ForAttributeName = "asp-for";
     private const string ItemsAttributeName = "asp-items";
@@ -25,32 +25,29 @@ namespace northwind.web.ui.tags
     private bool IsDisplay => IsOfType(typeof(DisplayAttribute));
     private IEnumerable<object> GetModelAttributes()
       => (For.ModelExplorer.Metadata as DefaultModelMetadata)?.Attributes.Attributes;
+    
+    private bool IsRequired() => IsOfType(typeof(RequiredAttribute));
+
     private bool IsOfType(Type type) => GetModelAttributes()?.Any(x => x.GetType() == type) ?? false;
+
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-      if (Items == null)
-      {
-        throw new NullReferenceException();
-      }
-      
       output.TagName = null;
       output.TagMode = TagMode.StartTagAndEndTag;
 
-      var div1 = GetFieldTag();
+      var field = GetFieldTag();
+      var label = GetLabelTag();
+      var fieldBody = GetFieldBodyTag();
+      var selectWrapper = GetSelectWrapperTag();
+      var select = GetSelectTag();
 
-      var label1 = GetLabelTag();
-
-      div1.InnerHtml.AppendHtml(label1);
-
-      var div2 = GetFieldBodyTag();
-
-      div1.InnerHtml.AppendHtml(div2);
-
-      var select1 = GetSelectTag();
-     
-      div2.InnerHtml.AppendHtml5(select1);
-
-      output.Content.AppendHtml(div1);
+      selectWrapper.InnerHtml.AppendHtml5(select);
+      fieldBody.InnerHtml.AppendHtml5(selectWrapper);
+      
+      field.InnerHtml.AppendHtml(label);
+      field.InnerHtml.AppendHtml(fieldBody);
+      
+      output.Content.AppendHtml(field);
 
     }
 
@@ -58,14 +55,13 @@ namespace northwind.web.ui.tags
     {
       var select1 = new TagBuilder("select");
 
-      select1.AddCssClass("select");
       select1.Attributes.Add("data-validation");
-      select1.Attributes.Add("required");
+      select1.Attributes.AddIf(IsRequired(),"required");
       select1.Attributes.Add("id", For.Name);
       select1.Attributes.Add("name", For.Name);
 
       var option0 = new TagBuilder("option");
-      var value = (string) For.Model;
+      var value = For.Model?.ToString();
       var any = Items.Any(x => x.Value == value);
       
       option0.Attributes.Add("disabled");
@@ -73,7 +69,7 @@ namespace northwind.web.ui.tags
       option0.Attributes.AddIf(!any, "selected");
       
       select1.InnerHtml.AppendHtml(option0);
-
+      
       foreach (var item in Items)
       {
         var option1 = new TagBuilder("option");
@@ -100,13 +96,21 @@ namespace northwind.web.ui.tags
 
     private TagBuilder GetFieldBodyTag()
     {
-      var div2 = new TagBuilder("div");
+      var div1 = new TagBuilder("div");
 
-      div2.AddCssClass("control");
-      div2.AddCssClass("is-expanded");
-      div2.AddCssClass("field-body");
+      div1.AddCssClass("is-expanded");
+      div1.AddCssClass("field-body");
 
-      return div2;
+      return div1;
+    }
+
+    private TagBuilder GetSelectWrapperTag()
+    {
+      var div1 = new TagBuilder("div");
+      
+      div1.AddCssClass("select");
+
+      return div1;
     }
     
     private TagBuilder GetLabelTag()
@@ -127,5 +131,5 @@ namespace northwind.web.ui.tags
     }
     
   }
-  
+      
 }

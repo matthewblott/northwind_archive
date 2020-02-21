@@ -2,6 +2,15 @@
 <NavNode key="Home" parentKey="RootNode" controller="Home" action="Index" text="Home">
   <Children>
 
+    <!-- Categories -->
+    <NavNode key="Categories.Index" controller="Categories" action="Index" text="Categories">
+      <Children>
+        <NavNode key="Categories.New" controller="Categories" action="New" text="New" />
+        <NavNode key="Categories.Edit" controller="Categories" action="Edit" preservedRouteParameters="id" />
+        <NavNode key="Categories.Show" controller="Categories" action="Show" preservedRouteParameters="id" />
+      </Children>
+    </NavNode>
+
     <!-- Customers -->
     <NavNode key="Customers.Index" controller="Customers" action="Index" text="Customers">
       <Children>
@@ -10,5 +19,24 @@
         <NavNode key="Customers.Show" controller="Customers" action="Show" preservedRouteParameters="id" />
       </Children>
     </NavNode>
+
+    <!-- Products -->
+    <NavNode key="Products.Index" controller="Products" action="Index" text="Products">
+      <Children>
+        <NavNode key="Products.New" controller="Products" action="New" text="New" />
+        <NavNode key="Products.Edit" controller="Products" action="Edit" preservedRouteParameters="id" />
+        <NavNode key="Products.Show" controller="Products" action="Show" preservedRouteParameters="id" />
+      </Children>
+    </NavNode>
+    
+    <!-- Territories -->
+    <NavNode key="Territories.Index" controller="Territories" action="Index" text="Territories">
+      <Children>
+        <NavNode key="Territories.New" controller="Territories" action="New" text="New" />
+        <NavNode key="Territories.Edit" controller="Territories" action="Edit" preservedRouteParameters="id" />
+        <NavNode key="Territories.Show" controller="Territories" action="Show" preservedRouteParameters="id" />
+      </Children>
+    </NavNode>
+
   </Children>
 </NavNode>

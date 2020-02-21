@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using northwind.services.types;
-
 namespace northwind.web.ui.models
 {
+  using System.Collections.Generic;
+  using common.data;
+  using services.types;
   public class IndexViewModel<T> where T : class
   {
     public IEnumerable<T> Data { get; }

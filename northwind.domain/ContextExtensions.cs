@@ -1,12 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using northwind.domain.models;
-
 namespace northwind.domain
 {
+  using System;
+  using System.Collections.Generic;
+  using System.Linq;
+  using Microsoft.EntityFrameworkCore;
+  using Microsoft.EntityFrameworkCore.Metadata;
+  using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+  using models;
+  using RegionType = types.Region;
+  
   public static class ContextExtensions
   {
     public static void Build(this ModelBuilder builder)
@@ -14,32 +16,11 @@ namespace northwind.domain
       builder.Entity<Category>(entity =>
       {        
         entity.HasKey(e => e.Id);
-        //entity.ToTable("Categories");
-        // entity.Property(e => e.Id).ValueGeneratedNever();
-        // entity.Property(e => e.CategoryName).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.Description).HasColumnType("VARCHAR(8000)");
       });
 
-      builder.Entity<CustomerDemographics>(entity =>
-      {
-        entity.Property(e => e.Id).HasColumnType("VARCHAR(8000)");
-        entity.Property(e => e.CustomerDesc).HasColumnType("VARCHAR(8000)");
-      });
-      
       builder.Entity<Customer>(entity =>
       {
         entity.HasKey(e => e.Id);
-        // entity.Property(e => e.Id).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.Address).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.City).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.CompanyName).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.ContactName).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.ContactTitle).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.Country).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.Fax).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.Phone).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.PostalCode).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.Region).HasColumnType("VARCHAR(8000)");
       });
 
       builder.Entity<EmployeeTerritory>(entity =>
@@ -107,17 +88,11 @@ namespace northwind.domain
       builder.Entity<Product>(entity =>
       {        
         entity.HasKey(e => e.Id);
-        // entity.Property(e => e.Id).ValueGeneratedNever();
-        // entity.Property(e => e.ProductName).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.QuantityPerUnit).HasColumnType("VARCHAR(8000)");
-        // entity.Property(e => e.UnitPrice).IsRequired().HasColumnType("DECIMAL");
       });
 
       builder.Entity<Region>(entity =>
       {
         entity.HasKey(e => e.Id);
-        // entity.Property(e => e.Id).ValueGeneratedNever();
-        // entity.Property(e => e.RegionDescription).HasColumnType("VARCHAR(8000)");
       });
 
       builder.Entity<Shipper>(entity =>
@@ -145,8 +120,11 @@ namespace northwind.domain
 
       builder.Entity<Territory>(entity =>
       {
-        entity.Property(e => e.Id).HasColumnType("VARCHAR(8000)");
-        entity.Property(e => e.TerritoryDescription).HasColumnType("VARCHAR(8000)");
+        entity.HasKey(e => e.Id);
+        entity.Property(e => e.Description).HasColumnName("TerritoryDescription");
+        entity.Property(e => e.Region)
+          .HasColumnName("RegionId")
+          .HasConversion(new EnumToNumberConverter<RegionType, long>());
       });
     }
 
@@ -154,4 +132,5 @@ namespace northwind.domain
       model.FindEntityType(type).FindPrimaryKey().Properties.ToList();
     
   }
+  
 }

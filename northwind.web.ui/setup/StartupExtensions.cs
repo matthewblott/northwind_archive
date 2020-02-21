@@ -1,18 +1,21 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using northwind.domain;
-using AutoMapper;
-using DinkToPdf;
-using DinkToPdf.Contracts;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
-using northwind.reporting;
-using northwind.services;
-using northwind.web.ui.filters;
-  
+using northwind.domain.models;
+
 namespace northwind.web.ui.setup
 {
+  using AutoMapper;
+  using DinkToPdf;
+  using DinkToPdf.Contracts;
+  using Microsoft.AspNetCore.Builder;
+  using Microsoft.AspNetCore.Mvc.Infrastructure;
+  using Microsoft.AspNetCore.Mvc.Routing;
+  using Microsoft.EntityFrameworkCore;
+  using Microsoft.Extensions.DependencyInjection;
+  using domain;
+  using filters;
+  using reporting;
+  using services;
+  using services.implementations;
+
   public static class StartupExtensions
   {
     public static void AddAutoMapper(this IServiceCollection services) => services.AddAutoMapper(typeof(Startup));
@@ -42,6 +45,7 @@ namespace northwind.web.ui.setup
       services.AddScoped<ICategoryService, CategoryService>();
       services.AddScoped<ICustomerService, CustomerService>();
       services.AddScoped<IProductService, ProductService>();
+      services.AddScoped<ITerritoryService, TerritoryService>();
     }
     
     public static void AddRouting(this IServiceCollection services)

@@ -1,13 +1,14 @@
-using cloudscribe.Pagination.Models;
-using northwind.domain.models;
-using northwind.services.commands;
-using northwind.services.types;
-
 namespace northwind.services
 {
+  using commands;
+  using types;
+  using models.customers;
+  using northwind.domain.models;
+  using common.data;
+
   public interface ICustomerService : IServiceActions<Customer>
   {
-    PagedResult<Customer> Find(Pager pager, IQueryValues values, string orderBy = "", bool isDescending = false);
+    PagedData<CustomerServiceModel> Find(Pager pager, IQueryValues values, string orderBy = "", bool isDescending = false);
     int CreatePartial(CustomerUpdatePartial entity);
     bool UpdatePartial(CustomerUpdatePartial entity);
   }

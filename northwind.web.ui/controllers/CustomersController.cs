@@ -1,16 +1,18 @@
-using System;
-using System.Collections.Generic;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using northwind.domain.models;
-using northwind.services;
-using northwind.services.commands;
-using northwind.services.types;
-using northwind.web.ui.models;
-
 namespace northwind.web.ui.controllers
 {
+  using System;
+  using AutoMapper;
+  using Microsoft.AspNetCore.Mvc;
+  using Microsoft.AspNetCore.Mvc.Rendering;
+  using northwind.domain.models;
+  using common.data;
+  using services;
+  using services.commands;
+  using services.models.customers;
+  using services.types;
+  using models;
+  using models.customers;
+  
   public class CustomersController : Controller
   {
     private readonly ICustomerService _customerService;
@@ -29,9 +31,7 @@ namespace northwind.web.ui.controllers
       var values = new QueryValues { {nameof(id), id}, {nameof(companyName), companyName}, {nameof(region), region},};
       var result = _customerService.Find(new Pager(page), values, order, desc);
       var data = result.Data;
-      var mappedResult =  _mapper.Map<IEnumerable<CustomerPartialViewModel>>(data);
-      var viewModel = new IndexViewModel<CustomerPartialViewModel>(
-        mappedResult, new Pager(page, result.TotalItems), values, order, desc);
+      var viewModel = new IndexViewModel<CustomerServiceModel>(data, result.Pager, values, order, desc);
       
       return View(viewModel);
       
@@ -40,7 +40,6 @@ namespace northwind.web.ui.controllers
     public IActionResult New()
     {
       var viewModel = new CustomerViewModel {Regions = GetRegions()};
-
 
       return View(viewModel);
       

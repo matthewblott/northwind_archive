@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\northwind.common\northwind.common.csproj" />
     <ProjectReference Include="..\northwind.domain\northwind.domain.csproj" />
   </ItemGroup>
 </Project>

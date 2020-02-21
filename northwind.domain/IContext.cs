@@ -9,7 +9,6 @@ namespace northwind.domain
   public interface IContext : IDbContext
   {
     DbSet<Category> Categories { get; }
-    DbSet<CustomerDemographics> CustomerDemographics { get; }
     DbSet<Customer> Customers { get; }
     DbSet<EmployeeTerritory> EmployeeTerritories { get; }
     DbSet<Employee> Employees { get; }

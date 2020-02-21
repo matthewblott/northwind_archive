@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+// replaced DOMContentLoaded with turbolinks:load
+document.addEventListener('turbolinks:load', () => {
 
   document.querySelectorAll('input,textarea,select').forEach((el) =>
     el.addEventListener('invalid', (e) => e.preventDefault(), true));

@@ -1,15 +1,14 @@
-using System;
-using System.Collections.Generic;
-using Humanizer;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.Routing;
-using northwind.services;
-
 namespace northwind.web.ui.tags
 {
+  using System;
+  using System.Collections.Generic;
+  using Humanizer;
+  using Microsoft.AspNetCore.Mvc.Rendering;
+  using Microsoft.AspNetCore.Mvc.TagHelpers;
+  using Microsoft.AspNetCore.Mvc.ViewFeatures;
+  using Microsoft.AspNetCore.Razor.TagHelpers;
+  using Microsoft.AspNetCore.Routing;
+  
   [HtmlTargetElement("th")]
   public class TableHeaderTagHelper : AnchorTagHelper
   {

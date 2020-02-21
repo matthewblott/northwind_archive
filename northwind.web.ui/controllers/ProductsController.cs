@@ -1,14 +1,18 @@
-using System;
-using AutoMapper;
-using cloudscribe.Pagination.Models;
-using Microsoft.AspNetCore.Mvc;
-using northwind.domain.models;
-using northwind.services;
+using northwind.services.models.customers;
+using northwind.services.models.products;
 using northwind.services.types;
-using northwind.web.ui.models;
 
 namespace northwind.web.ui.controllers
 {
+  using System;
+  using AutoMapper;
+  using cloudscribe.Pagination.Models;
+  using Microsoft.AspNetCore.Mvc;
+  using northwind.domain.models;
+  using services;
+  using common.data;
+  using models;
+  
   public class ProductsController : Controller
   {
     private readonly IProductService _service;
@@ -22,16 +26,12 @@ namespace northwind.web.ui.controllers
 
     public IActionResult Index(long page, string order, bool desc, long id, string name)
     {
-      var parameters = new ProductQueryParameters
-      {
-        Id = id, OrderBy = order, IsDescending = desc, ProductName = name
-      };
+      var values = new QueryValues { {nameof(id), id}, {nameof(name), name} };
+      var result = _service.Find(new Pager(page), values, order, desc);
+      var data = result.Data;
+      var viewModel = new IndexViewModel<ProductServiceModel>(data, result.Pager, values, order, desc);
       
-      var result = _service.Find(new Pager(page), parameters);
-      var result0 =  _mapper.Map<PagedResult<ProductViewModel>>(result);
-      var model = new ProductsViewModel(parameters, result0);
-
-      return View(model);
+      return View(viewModel);
       
     }
 

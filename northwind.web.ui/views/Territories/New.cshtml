@@ -1,0 +1,13 @@
+@model TerritoryViewModel
+
+<div class="field is-horizontal">
+  <label class="field-label"></label>
+  <div class="control is-expanded field-body">
+    <partial name="_FormControls" />
+  </div>
+</div>
+
+<form id="cancel" method="get" asp-action="Index">
+</form>
+
+<partial name="_Form" model="@Model"/>

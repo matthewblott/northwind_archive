@@ -1,14 +1,13 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.EntityFrameworkCore.Internal;
-
 namespace northwind.web.ui.tags
 {
+  using System.Collections.Generic;
+  using System.IO;
+  using System.Linq;
+  using System.Text.Encodings.Web;
+  using Microsoft.AspNetCore.Html;
+  using Microsoft.AspNetCore.Mvc.Rendering;
+  using Microsoft.AspNetCore.Mvc.ViewFeatures;
+  
   public static class TagBuilderExtensions
   {
     public static void AppendHtml5(this IHtmlContentBuilder builder, TagBuilder tag)

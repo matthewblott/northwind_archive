@@ -1,4 +1,4 @@
-namespace northwind.reporting
+namespace northwind.reporting.models
 {
   public class Example1ViewModel
   {

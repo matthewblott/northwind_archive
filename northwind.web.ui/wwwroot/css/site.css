@@ -37,6 +37,7 @@ input[type="radio"][required]:invalid ~ span[data-nw-validation]::before {
 /* modal */
 .is-nowidth {
   width: 0;
+  visibility: hidden;
 }
 
 .toggle ~ .modal {

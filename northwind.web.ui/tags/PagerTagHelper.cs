@@ -1,14 +1,15 @@
-using System.Linq;
-using cloudscribe.Web.Pagination;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using northwind.services.types;
-
 namespace northwind.web.ui.tags
 {
+  using Microsoft.AspNetCore.Html;
+  using System.Linq;
+  using cloudscribe.Web.Pagination;
+  using Microsoft.AspNetCore.Mvc.Routing;
+  using Microsoft.AspNetCore.Razor.TagHelpers;
+  using services.types;
+  using CloudscribePagerTagHelper = cloudscribe.Web.Pagination.PagerTagHelper;
+
   [HtmlTargetElement("nw-pager", Attributes = "cs-paging-pagenumber,cs-paging-totalitems")]
-  public class PagerTagHelper : cloudscribe.Web.Pagination.PagerTagHelper
+  public class PagerTagHelper : CloudscribePagerTagHelper
   {
     [HtmlAttributeName("nw-descending")]
     public bool IsDescending { get; set; }

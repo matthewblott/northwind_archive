@@ -1,33 +1,7 @@
 @model CategoryViewModel
 
 <form method="post">
-
-  <div class="field">
-    <label class="label" asp-for="Id"></label>
-    <div class="control">
-      <input class="input validation" asp-for="Id">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="CategoryName"></label>
-    <div class="control">
-      <input class="input validation" asp-for="CategoryName">
-    </div>
-  </div>
-  <div class="field">
-    <label class="label" asp-for="Description"></label>
-    <div class="control">
-      <input class="input validation" asp-for="Description">
-    </div>
-  </div>
-
-  
-  <div class="field is-horizontal">
-    <label class="is-normal field-label label" for="Id">Id</label>
-    <div class="field-body is-expanded control">
-      
-    </div>
-  </div>
-  
-  
+  <nw-field asp-for="Id"/>
+  <nw-field asp-for="CategoryName"/>
+  <nw-field asp-for="Description"/>
 </form>

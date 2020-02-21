@@ -13,7 +13,6 @@ namespace northwind.domain
     private IDbContextTransaction _transaction;
 
     public virtual DbSet<Category> Categories { get; set; }
-    public virtual DbSet<CustomerDemographics> CustomerDemographics { get; set; }
     public virtual DbSet<Customer> Customers { get; set; }
     public virtual DbSet<EmployeeTerritory> EmployeeTerritories { get; set; }
     public virtual DbSet<Employee> Employees { get; set; }

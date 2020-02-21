@@ -1,14 +1,14 @@
-using System;
-using AutoMapper;
-using cloudscribe.Pagination.Models;
-using Microsoft.AspNetCore.Mvc;
-using northwind.domain.models;
-using northwind.services;
-using northwind.web.ui.models;
-using northwind.services.types;
-
 namespace northwind.web.ui.controllers
 {
+  using AutoMapper;
+  using Microsoft.AspNetCore.Mvc;
+  using northwind.domain.models;
+  using northwind.services.models.categories;
+  using common.data;
+  using services;
+  using models;
+  using services.types;
+  
   public class CategoriesController : Controller
   {
     private readonly ICategoryService _service;
@@ -22,16 +22,12 @@ namespace northwind.web.ui.controllers
 
     public IActionResult Index(long page, string order, bool desc, long id, string name, string description)
     {
-      var parameters = new CategoryQueryParameters
-      {
-        Id = id, OrderBy = order, IsDescending = desc, CategoryName = name, Description = description
-      };
+      var values = new QueryValues { {nameof(id), id}, {nameof(name), name}, {nameof(description), description},};
+      var result = _service.Find(new Pager(page), values, order, desc);
+      var data = result.Data;
+      var viewModel = new IndexViewModel<CategoryServiceModel>(data, result.Pager, values, order, desc);
       
-      var result = _service.Find(new Pager(page), parameters);
-      var result0 =  _mapper.Map<PagedResult<CategoryViewModel>>(result);
-      var model = new CategoriesViewModel(parameters, result0);
-
-      return View(model);
+      return View(viewModel);
       
     }
 

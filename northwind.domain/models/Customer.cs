@@ -1,8 +1,15 @@
 ﻿namespace northwind.domain.models
 {
+  using System.ComponentModel.DataAnnotations;
+  using static DataValidation.Customer;
+
   public class Customer
   {
+    [Required]
+    [MaxLength(MaxIdLength)]
     public string Id { get; set; }
+
+    [Required]
     public string CompanyName { get; set; }
     public string ContactName { get; set; }
     public string ContactTitle { get; set; }

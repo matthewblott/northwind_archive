@@ -1,24 +1,26 @@
-@model ProductsViewModel
+@model IndexViewModel<ProductServiceModel>
 
 <table class="table is-striped is-hoverable is-fullwidth">
+
   <tr>
-    <th scope="col" nw-column="Id" asp-controller="Products" nw-parameters="@Model.Parameters"
-        nw-page="@Model.PagedResult.PageNumber" asp-for="PagedResult">
+    <th scope="col" nw-column="Id" asp-controller="Products" nw-page="@Model.Pager.PageNumber" 
+        nw-order="@Model.OrderBy" nw-descending="@Model.IsDescending">
     </th>
-    <th scope="col" nw-column="ProductName" asp-controller="Products" nw-parameters="@Model.Parameters"
-        nw-page="@Model.PagedResult.PageNumber">
-    </th>
-    <th scope="col">
-      Unit <Price></Price>
+    <th scope="col" nw-column="ProductName" asp-controller="Products" nw-order="@Model.OrderBy" 
+        nw-page="@Model.Pager.PageNumber" nw-caption="Company" nw-descending="@Model.IsDescending">
     </th>
     <th scope="col">
+      <input name="modal-toggle" type="radio" class="toggle is-nowidth" id="modal__button-new">
+      <label for="modal__button-new">
+        <i class="fa fa-plus has-text-light"></i>
+      </label>
       <a asp-action="New">
         <i class="fa fa-plus"></i>
       </a>
     </th>
   </tr>
 
-  @foreach (var item in Model.PagedResult.Data)
+  @foreach (var item in Model.Data)
   {
     <tr>
       <td>
@@ -41,13 +43,12 @@
 </table>
 
 <nw-pager
-  cs-paging-pagenumber="@Model.PagedResult.PageNumber"
-  cs-paging-pagesize="@Model.PagedResult.PageSize"
-  cs-paging-totalitems="@Model.PagedResult.TotalItems"
+  cs-paging-pagenumber="@Model.Pager.PageNumber"
+  cs-paging-pagesize="@Model.Pager.PageSize"
+  cs-paging-totalitems="@Model.Pager.TotalItems"
   asp-controller="Products"
   asp-action="Index"
-  asp-route-id="@Model.Parameters.Id"
-  asp-route-name="@Model.Parameters.ProductName"
-  nw-order="@Model.Parameters.OrderBy"
-  nw-descending="@Model.Parameters.IsDescending">
+  nw-query-values="@Model.QueryValues"
+  nw-order="@Model.OrderBy"
+  nw-descending="@Model.IsDescending">
 </nw-pager>

@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
   <link rel="stylesheet" href="https://unpkg.com/bulmaswatch@0.7.2/slate/bulmaswatch.min.css">
   <link rel="stylesheet" href="~/css/site.css">
+  <script src="~/lib/turbolinks/turbolinks.min.js" asp-append-version="true"></script>
+  <script src="~/js/validation.js" asp-append-version="true" defer></script>
 </head>
 <body>
 
@@ -32,8 +34,8 @@
       <a class="navbar-item" asp-controller="Products" asp-action="Index">
         Products
       </a>
-      <a class="navbar-item" asp-controller="Regions" asp-action="Index">
-        Regions
+      <a class="navbar-item" asp-controller="Territories" asp-action="Index">
+        Territories
       </a>
       <a class="navbar-item" asp-controller="Reports" asp-action="Index">
         Reports
@@ -53,11 +55,7 @@
 <div class="container is-fluid">
   @RenderBody()
 </div>
-
-<script src="~/js/validation.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-
-@RenderSection("Scripts", false)
+  @RenderSection("Scripts", false)
 
 </body>
 </html>
