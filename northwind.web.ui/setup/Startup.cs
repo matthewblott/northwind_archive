@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace northwind.web.ui.setup
+﻿namespace northwind.web.ui.setup
 {
+  using Microsoft.AspNetCore.Builder;
+  using Microsoft.Extensions.Configuration;
+  using Microsoft.Extensions.DependencyInjection;
+  
   public class Startup
   {
     public Startup(IConfiguration configuration) => Configuration = configuration;
@@ -20,8 +20,8 @@ namespace northwind.web.ui.setup
       services.AddDomain();
       services.AddConventionalServices();
       services.AddReporting();
-      services.AddRouting();
-      services.AddMvcServices();
+      services.AddRoutingOptions();
+      services.AddMvcServices(Configuration.GetRazorSettings());
     }
 
     public void Configure(IApplicationBuilder app)
@@ -34,5 +34,4 @@ namespace northwind.web.ui.setup
     }
     
   }
-  
 }

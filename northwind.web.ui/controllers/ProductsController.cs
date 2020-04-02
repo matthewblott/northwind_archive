@@ -1,17 +1,15 @@
-using northwind.services.models.customers;
-using northwind.services.models.products;
-using northwind.services.types;
-
 namespace northwind.web.ui.controllers
 {
   using System;
   using AutoMapper;
-  using cloudscribe.Pagination.Models;
   using Microsoft.AspNetCore.Mvc;
   using northwind.domain.models;
   using services;
   using common.data;
   using models;
+  using models.products;
+  using northwind.services.models.products;
+  using services.types;
   
   public class ProductsController : Controller
   {
@@ -24,7 +22,7 @@ namespace northwind.web.ui.controllers
       _mapper = mapper;
     }
 
-    public IActionResult Index(long page, string order, bool desc, long id, string name)
+    public IActionResult Index(int page, string order, bool desc, int id, string name)
     {
       var values = new QueryValues { {nameof(id), id}, {nameof(name), name} };
       var result = _service.Find(new Pager(page), values, order, desc);
@@ -43,7 +41,7 @@ namespace northwind.web.ui.controllers
       
     }
 
-    public IActionResult Show(long id)
+    public IActionResult Show(int id)
     {
       var result = _service.Find(id);
       var model =  _mapper.Map<ProductViewModel>(result);
@@ -52,7 +50,7 @@ namespace northwind.web.ui.controllers
       
     }
 
-    public IActionResult Edit(long id)
+    public IActionResult Edit(int id)
     {
       var result = _service.Find(id);
       var model =  _mapper.Map<ProductViewModel>(result);
@@ -91,7 +89,7 @@ namespace northwind.web.ui.controllers
       
     }
 
-    public IActionResult Delete(long id)
+    public IActionResult Delete(int id)
     {
       var result = _service.Delete(id);
 

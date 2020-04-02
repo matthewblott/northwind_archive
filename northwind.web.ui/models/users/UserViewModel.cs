@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace northwind.web.ui.models
+namespace northwind.web.ui.models.users
 {
   public class UserViewModel
   {

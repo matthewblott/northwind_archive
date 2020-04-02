@@ -1,5 +1,6 @@
 namespace northwind.web.ui.models.customers
 {
+  using System.Collections.Generic;
   using System.ComponentModel;
   using System.ComponentModel.DataAnnotations;
   using System.ComponentModel.DataAnnotations.Schema;
@@ -28,7 +29,7 @@ namespace northwind.web.ui.models.customers
     [ReadOnly(true)]
     public string Region { get; set; } = "British Isles";  
     
-    public SelectList Regions { get; set; }
+    public IEnumerable<SelectListItem> Regions { get; set; }
     public string PostalCode { get; set; }
     public string Country { get; set; }
     public string Phone { get; set; }

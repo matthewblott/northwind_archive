@@ -1,17 +1,20 @@
-namespace northwind.web.ui.models
+namespace northwind.web.ui.models.products
 {
-  public class ProductViewModel
+  using common.mapping;
+  using domain.models;
+  
+  public class ProductViewModel: IMapFrom<Product>, IMapTo<Product>
   {
-    public long Id { get; set; }
+    public int Id { get; set; }
     public string ProductName { get; set; }
-    public long SupplierId { get; set; }
-    public long CategoryId { get; set; }
+    public int SupplierId { get; set; }
+    public int CategoryId { get; set; }
     public string QuantityPerUnit { get; set; }
     public decimal UnitPrice { get; set; }
-    public long UnitsInStock { get; set; }
-    public long UnitsOnOrder { get; set; }
-    public long ReorderLevel { get; set; }
-    public long Discontinued { get; set; }
+    public int UnitsInStock { get; set; }
+    public int UnitsOnOrder { get; set; }
+    public int ReorderLevel { get; set; }
+    public int Discontinued { get; set; }
 
   }
 }

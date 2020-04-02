@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "northwind.common", "northwi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "northwind.reporting", "northwind.reporting\northwind.reporting.csproj", "{FC9122BC-2EF4-40AD-A99C-73CC5DC614C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "northwind.tests", "northwind.tests\northwind.tests.csproj", "{0746481A-D539-4CAC-8B10-73678D5BCD77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,5 +88,17 @@ Global
 		{FC9122BC-2EF4-40AD-A99C-73CC5DC614C6}.Release|x64.Build.0 = Release|Any CPU
 		{FC9122BC-2EF4-40AD-A99C-73CC5DC614C6}.Release|x86.ActiveCfg = Release|Any CPU
 		{FC9122BC-2EF4-40AD-A99C-73CC5DC614C6}.Release|x86.Build.0 = Release|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Debug|x64.Build.0 = Debug|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Debug|x86.Build.0 = Debug|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Release|x64.ActiveCfg = Release|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Release|x64.Build.0 = Release|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Release|x86.ActiveCfg = Release|Any CPU
+		{0746481A-D539-4CAC-8B10-73678D5BCD77}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

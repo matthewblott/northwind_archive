@@ -1,0 +1,18 @@
+@model CustomerViewModel
+
+<form method="post" asp-action="@Model.ActionName" id="save">
+
+  <vc:field-input asp-for="Id" is-read-only="true" />
+  <vc:field-input asp-for="IsActive" is-read-only="false" />
+  <vc:field-input asp-for="CompanyName" is-read-only="false" />
+  <vc:field-input asp-for="ContactName" is-read-only="false" />
+  <vc:field-input asp-for="ContactTitle" is-read-only="false" />
+  <vc:field-input asp-for="Address" is-read-only="false" />
+  <vc:field-input asp-for="City" is-read-only="false" />
+  <nw-field-select asp-for="Region" asp-items="Model.Regions" />
+  <nw-field asp-for="PostalCode"/>
+  <nw-field asp-for="Country"/>
+  <nw-field asp-for="Phone"/>
+  <nw-field asp-for="Fax"/>
+  
+</form>

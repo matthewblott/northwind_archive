@@ -12,7 +12,7 @@ namespace northwind.services.implementations
   {
     private readonly IMapper _mapper;
     
-    public ProductService(IContext db, IMapper mapper) : base(db, db.Products)
+    public ProductService(Context db, IMapper mapper) : base(db, db.Products)
     {
       _mapper = mapper;
     }
@@ -47,9 +47,9 @@ namespace northwind.services.implementations
     
     }
     
-    public new bool Delete(params object[] keyValues)
+    public new bool Delete(object id)
     {
-      var retVal = base.Delete(keyValues);
+      var retVal = base.Delete(id);
       
       _db.Commit();
     

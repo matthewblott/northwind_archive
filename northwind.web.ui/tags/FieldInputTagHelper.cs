@@ -12,6 +12,7 @@ namespace northwind.web.ui.tags
   using Microsoft.AspNetCore.Mvc.TagHelpers;
   using Microsoft.AspNetCore.Mvc.ViewFeatures;
   using Microsoft.AspNetCore.Razor.TagHelpers;
+  using common;
   using RemoteAttribute = validation.RemoteAttribute;
   
   [HtmlTargetElement("nw-field-input")]
@@ -20,10 +21,8 @@ namespace northwind.web.ui.tags
   {
     private readonly IUrlHelper _urlHelper;
 
-    public FieldInputTagHelper(IHtmlGenerator generator, IUrlHelper urlHelper) : base(generator)
-    {
-      _urlHelper = urlHelper;
-    }
+    public FieldInputTagHelper(IHtmlGenerator generator, IUrlHelper urlHelper) 
+      : base(generator) => _urlHelper = urlHelper;
 
     [HtmlAttributeName("nw-is-readonly")]
     public bool IsReadOnly { get; set; }
@@ -56,7 +55,8 @@ namespace northwind.web.ui.tags
         var span1 = GetSpanTag();
         
         span1.InnerHtml.AppendHtml5(input1);
-
+        span1.InnerHtml.AppendHtml5(GetCheckBoxFalseValueInputTag());
+        
         div2.InnerHtml.AppendHtml5(span1);
 
       }
@@ -86,6 +86,7 @@ namespace northwind.web.ui.tags
     private bool IsRemote => IsOfType(typeof(RemoteAttribute));
     private bool IsBool => For.ModelExplorer.ModelType == typeof(bool);
     
+    // todo: use the field type of the model so the DataTypeAttribute isn't required
     private bool IsDateTime 
       => IsDataType && GetModelAttributes().GetModelAttribute<DataTypeAttribute>().DataType == DataType.DateTime;
     private bool IsDate 
@@ -111,19 +112,40 @@ namespace northwind.web.ui.tags
       return div2;
     }
 
-    private TagBuilder GetInputTag()
+    private TagBuilder GetCheckBoxFalseValueInputTag()
     {
       var input1 = new TagBuilder("input") { TagRenderMode = TagRenderMode.SelfClosing };
 
+      input1.Attributes.Add("name", For.Name);
+      input1.Attributes.Add("type", "hidden");
+      input1.Attributes.Add("value", false.ToString().ToLower());
+      
+      return input1;
+    }
+    
+    private TagBuilder GetInputTag()
+    {
+      var isNull = For.Model == null;
+
+      var input1 = new TagBuilder("input") { TagRenderMode = TagRenderMode.SelfClosing };
+      
       input1.AddCssClassIf(IsValidation,"validation");
       input1.Attributes.Add("id", For.Name);
       input1.Attributes.Add("name", For.Name);
-      input1.Attributes.Add("value", $"{For.Model}");
       input1.Attributes.AddIf(IsReadOnlyResult,"readonly");
       input1.Attributes.AddIf(IsRequired, "required");
       input1.Attributes.AddIf(IsBool,"type", "checkbox");
-      input1.AddCssClassIf(IsBool,"checkbox");
 
+      if (IsBool)
+      {
+        input1.Attributes.AddIf(Convert.ToBoolean(For.Model), "checked");
+      }
+      
+      input1.Attributes.AddIf( !isNull && !IsBool, "value", $"{For.Model}");
+      input1.Attributes.AddIf(IsBool, "value", true.ToString().ToLower());
+      input1.Attributes.AddIfMissing("value", $"{For.Model}");
+      
+      input1.AddCssClassIf(IsBool,"checkbox");
       input1.Attributes.AddIf(!IsDisplay,"placeholder", For.Name.Humanize().Titleize());
 
       // Need to account for radio and textarea
@@ -134,8 +156,8 @@ namespace northwind.web.ui.tags
         input1.Attributes.Add("type", "date");
         input1.Attributes.Add("data-show-header", false);
         input1.Attributes.Add("data-color", "dark");
-        input1.Attributes.Add("date-date-format", "YYYY-MM-DD");
-        input1.MergeAttribute("value", $"{For.Model:yyyy-MM-dd}");
+        input1.Attributes.Add("data-date-format", "YYYY-MM-DD"); 
+        input1.MergeAttribute("value", string.Format(DateFormats.InternationalDate, For.Model), true);
       }
 
       if (IsDateTime && !IsReadOnlyResult)
@@ -143,8 +165,8 @@ namespace northwind.web.ui.tags
         input1.Attributes.Add("type", "date");
         input1.Attributes.Add("data-show-header", false);
         input1.Attributes.Add("data-color", "dark");
-        input1.Attributes.Add("date-date-format", "YYYY-MM-DD HH:mm");
-        input1.MergeAttribute("value", $"{For.Model:yyyy-MM-dd HH:mm}");
+        input1.Attributes.Add("data-date-format", "YYYY-MM-DD HH:mm");
+        input1.MergeAttribute("value", string.Format(DateFormats.InternationalDateTime, For.Model), true);
       }
 
       if (IsRegularExpression)

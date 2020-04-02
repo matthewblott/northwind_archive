@@ -11,7 +11,7 @@ namespace northwind.services.implementations
   public class CategoryService : ServiceBase<Category>, ICategoryService
   {
     private readonly IMapper _mapper;
-    public CategoryService(IContext db, IMapper mapper) : base(db, db.Categories)
+    public CategoryService(Context db, IMapper mapper) : base(db, db.Categories)
     {
       _mapper = mapper;
     }
@@ -46,9 +46,9 @@ namespace northwind.services.implementations
       return retVal;
     }
 
-    public new bool Delete(params object[] keyValues)
+    public new bool Delete(object id)
     {
-      var retVal = base.Delete(keyValues);
+      var retVal = base.Delete(id);
       
       _db.Commit();
     

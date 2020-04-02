@@ -15,9 +15,9 @@ namespace northwind.services.implementations
   
   public class ServiceBase<T> where T : class
   {
-    protected readonly IContext _db;
+    protected readonly Context _db;
     private readonly DbSet<T> _entities;
-    protected ServiceBase(IContext db, DbSet<T> entities)
+    protected ServiceBase(Context db, DbSet<T> entities)
     {
       _db = db;
       _entities = entities;
@@ -229,8 +229,8 @@ namespace northwind.services.implementations
     
     public PagedResult<T> Find(Pager pager) =>  _entities?.GetPaged(pager);
 
-    public T Find(params object[] keyValues) => _entities.Find(keyValues);
-    public bool Exists(params object[] keyValues) => Find(keyValues) != null;
+    public T Find(object id) => _entities.Find(id);
+    public bool Exists(object id) => Find(id) != null;
 
     protected int Create(T entity)
     {
@@ -269,9 +269,9 @@ namespace northwind.services.implementations
       return SaveChanges();
 
     }
-    protected bool Delete(params object[] keyValues)
+    protected bool Delete(object id)
     {
-      var entity = _entities.Find(keyValues);
+      var entity = _entities.Find(id);
 
       _entities.Remove(entity);
 

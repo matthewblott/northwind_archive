@@ -1,0 +1,31 @@
+@model IEnumerable<RecentOrderServiceModel>
+
+<table class="table is-striped is-hoverable is-fullwidth">
+  <tr>
+    <th scope="col">
+      Id
+    </th>
+    <th scope="col">
+      Customer Id
+    </th>
+    <th scope="col">
+      Order Date
+    </th>
+  </tr>
+
+  @foreach (var item in Model)
+  {
+    <tr>
+      <td>
+        @item.Id
+      </td>
+      <td>
+        @item.CustomerId
+      </td>
+      <td>
+        @item.OrderDate.ToInternationalDateTimeString()
+      </td>
+    </tr>
+  }
+
+</table>

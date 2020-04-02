@@ -1,20 +1,24 @@
 ﻿namespace northwind.domain.models
 {
+  using System;
+  using System.Collections.Generic;
+
   public class Order
   {
-    public long Id { get; set; }
+    public int Id { get; set; }
     public string CustomerId { get; set; }
-    public long EmployeeId { get; set; }
-    public string OrderDate { get; set; }
+    public int EmployeeId { get; set; }
+    public DateTime OrderDate { get; set; }
     public string RequiredDate { get; set; }
     public string ShippedDate { get; set; }
-    public long? ShipVia { get; set; }
-    public byte[] Freight { get; set; }
+    public int? ShipVia { get; set; }
+    public decimal Freight { get; set; }
     public string ShipName { get; set; }
     public string ShipAddress { get; set; }
     public string ShipCity { get; set; }
     public string ShipRegion { get; set; }
     public string ShipPostalCode { get; set; }
     public string ShipCountry { get; set; }
+    public ICollection<OrderDetails> OrderDetails { get; set; }
   }
 }

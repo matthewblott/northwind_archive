@@ -1,11 +1,11 @@
 ﻿namespace northwind.domain.models
 {
-  using RegionType = types.Region;
+  using types;
   
   public class Territory
   {
     public string Id { get; set; }
     public string Description { get; set; }
-    public RegionType Region { get; set; }
+    public Region Region { get; set; }
   }
 }

@@ -1,7 +1,0 @@
-@model TerritoryViewModel
- 
-<form method="post" asp-action="@Model.ActionName" id="save">
-  <nw-field asp-for="Id" nw-is-readonly="@(!Model.IsNew)" />
-  <nw-field-select-enum asp-for="Region" asp-items="Html.GetEnumSelectList<RegionType>()" />
-  <nw-field asp-for="Description" />
-</form>

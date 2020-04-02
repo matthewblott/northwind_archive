@@ -7,6 +7,7 @@ namespace northwind.web.ui.controllers
   using common.data;
   using services;
   using models;
+  using models.categories;
   using services.types;
   
   public class CategoriesController : Controller
@@ -20,7 +21,7 @@ namespace northwind.web.ui.controllers
       _mapper = mapper;
     }
 
-    public IActionResult Index(long page, string order, bool desc, long id, string name, string description)
+    public IActionResult Index(int page, string order, bool desc, int id, string name, string description)
     {
       var values = new QueryValues { {nameof(id), id}, {nameof(name), name}, {nameof(description), description},};
       var result = _service.Find(new Pager(page), values, order, desc);
@@ -39,7 +40,7 @@ namespace northwind.web.ui.controllers
       
     }
 
-    public IActionResult Show(long id)
+    public IActionResult Show(int id)
     {
       var result = _service.Find(id);
       var model =  _mapper.Map<CategoryViewModel>(result);
@@ -48,7 +49,7 @@ namespace northwind.web.ui.controllers
       
     }
 
-    public IActionResult Edit(long id)
+    public IActionResult Edit(int id)
     {
       var result = _service.Find(id);
       var model =  _mapper.Map<CategoryViewModel>(result);
@@ -78,7 +79,7 @@ namespace northwind.web.ui.controllers
       
     }
 
-    public IActionResult Delete(long id)
+    public IActionResult Delete(int id)
     {
       _service.Delete(id);
 

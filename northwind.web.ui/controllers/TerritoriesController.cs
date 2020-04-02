@@ -21,7 +21,7 @@ namespace northwind.web.ui.controllers
       _mapper = mapper;
     }
 
-    public IActionResult Index(long page, string order, bool desc, string id, string name, string description)
+    public IActionResult Index(int page, string order, bool desc, string id, string name, string description)
     {
       var values = new QueryValues { {nameof(id), id}, {nameof(name), name}, {nameof(description), description},};
       var result = _service.Find(new Pager(page), values, order, desc);

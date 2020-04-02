@@ -14,7 +14,7 @@ namespace northwind.services.implementations
   public class CustomerService : ServiceBase<Customer>, ICustomerService
   {
     private readonly IMapper _mapper;
-    public CustomerService(IContext db, IMapper mapper) : base(db, db.Customers)
+    public CustomerService(Context db, IMapper mapper) : base(db, db.Customers)
     {
       _mapper = mapper;
     }
@@ -79,9 +79,9 @@ namespace northwind.services.implementations
 
     }
     
-    public new bool Delete(params object[] keyValues)
+    public new bool Delete(object id)
     {
-      var retVal = base.Delete(keyValues);
+      var retVal = base.Delete(id);
       
       _db.Commit();
     

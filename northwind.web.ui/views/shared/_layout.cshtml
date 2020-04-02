@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<partial name="_head"/>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" asp-controller="Home" asp-action="Index">
+        Home
+      </a>
+      <a class="navbar-item" asp-controller="Categories" asp-action="Index">
+        Categories
+      </a>
+      <a class="navbar-item" asp-controller="Customers" asp-action="Index">
+        Customers
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link navbar-item" asp-controller="Orders" asp-action="Index">
+          Orders
+        </a>
+        
+        <div class="navbar-dropdown">
+          <a class="navbar-item" asp-controller="Orders" asp-action="Recent">
+            Recent
+          </a>
+          <a class="navbar-item" asp-controller="Orders" asp-action="Search">
+            Search
+          </a>
+        </div>
+      </div>
+      <a class="navbar-item" asp-controller="Products" asp-action="Index">
+        Products
+      </a>
+      <a class="navbar-item" asp-controller="Territories" asp-action="Index">
+        Territories
+      </a>
+      <a class="navbar-item" asp-controller="Reports" asp-action="Index">
+        Reports
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container is-fluid">
+  <div class="is-pulled-left">
+    @await Component.InvokeAsync("Navigation", new {viewName = "Breadcrumbs", filterName = "Breadcrumbs", startingNodeKey = ""})
+  </div>
+</div>
+
+<div class="pb-2"></div>
+
+<div class="container is-fluid">
+  @RenderBody()
+</div>
+@RenderSection("Scripts", false)
+
+</body>
+</html>

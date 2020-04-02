@@ -1,0 +1,40 @@
+@model FieldInputViewModel 
+<div class="field is-horizontal">
+  <label class="is-normal field-label label" for="@Model.Id">@Model.DisplayName</label>
+  <div class="field-body is-expanded control">
+    @if (Model.InputType == InputType.CheckBox)
+    {
+      <span class="pt-1">
+        <input type="checkbox" id="@Model.Id" name="@Model.Name" value="true" class="checkbox validation" 
+               nw-is-readonly="@Model.IsReadOnly" 
+               nw-is-required="@Model.IsRequired" 
+               nw-is-checked="@Model.IsChecked">
+        <input type="hidden" name="@Model.Name" value="false">
+      </span>
+    }
+    else if (Model.InputType == InputType.Hidden)
+    {
+      <input type="hidden" name="@Model.Name" value="@Model.Value">
+    }
+    else if (Model.InputType == InputType.Password)
+    {
+      <input type="password" id="@Model.Id" name="@Model.Name" class="input validation" 
+             placeholder="@Model.Placeholder"
+             nw-is-readonly="@Model.IsReadOnly" 
+             nw-is-required="@Model.IsRequired"
+             value="@Model.Value">
+    }
+    else if (Model.InputType == InputType.Radio)
+    {
+      <input type="radio" id="@Model.Id" name="@Model.Name" class="radio validation"
+             nw-is-readonly="@Model.IsReadOnly" 
+             nw-is-required="@Model.IsRequired">
+    }
+    else if (Model.InputType == InputType.Text)
+    {
+      <input id="@Model.Id" name="@Model.Name" class="input validation" placeholder="@Model.Placeholder" 
+             nw-is-readonly="@Model.IsReadOnly" 
+             nw-is-required="@Model.IsRequired" value="@Model.Value">
+    }
+  </div>
+</div>

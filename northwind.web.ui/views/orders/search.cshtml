@@ -1,0 +1,20 @@
+@model SearchViewModel
+
+<form asp-controller="Orders" asp-action="SearchResults">
+  <nw-field asp-for="EmployeeId" />
+  <nw-field asp-for="CustomerId" />
+  <nw-field asp-for="OrderDateFrom"/>
+  <nw-field asp-for="OrderDateTo"/>
+  
+  
+  <button class="button">Submit</button>
+  
+</form>
+
+<script>
+
+  if(typeof bulmaCalendar !== 'undefined') {
+    bulmaCalendar.attach('[type="date"]');
+  }
+
+</script>

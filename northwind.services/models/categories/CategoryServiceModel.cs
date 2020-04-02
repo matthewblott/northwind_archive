@@ -5,7 +5,7 @@ namespace northwind.services.models.categories
 
   public class CategoryServiceModel : IMapFrom<Category>
   {
-    public long Id { get; set; }
+    public int Id { get; set; }
     public string CategoryName { get; set; }
     public string Description { get; set; }
   }

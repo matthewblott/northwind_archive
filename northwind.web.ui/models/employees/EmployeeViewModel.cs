@@ -1,8 +1,8 @@
-namespace northwind.web.ui.models
+namespace northwind.web.ui.models.employees
 {
   public class EmployeeViewModel
   {
-    public long Id { get; set; }
+    public int Id { get; set; }
     public string LastName { get; set; }
     public string FirstName { get; set; }
     public string Title { get; set; }
@@ -18,7 +18,7 @@ namespace northwind.web.ui.models
     public string Extension { get; set; }
     public byte[] Photo { get; set; }
     public string Notes { get; set; }
-    public long? ReportsTo { get; set; }
+    public int? ReportsTo { get; set; }
     public string PhotoPath { get; set; }
   }
 }

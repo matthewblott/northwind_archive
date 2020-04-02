@@ -20,6 +20,15 @@
       </Children>
     </NavNode>
 
+    <!-- Orders -->
+    <NavNode key="Orders.Index" controller="Orders" action="Index" text="Orders">
+      <Children>
+        <NavNode key="Orders.New" controller="Orders" action="New" text="New" />
+        <NavNode key="Orders.Edit" controller="Orders" action="Edit" preservedRouteParameters="id" />
+        <NavNode key="Orders.Show" controller="Orders" action="Show" preservedRouteParameters="id" />
+      </Children>
+    </NavNode>
+    
     <!-- Products -->
     <NavNode key="Products.Index" controller="Products" action="Index" text="Products">
       <Children>

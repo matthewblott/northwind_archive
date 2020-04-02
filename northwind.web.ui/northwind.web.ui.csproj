@@ -11,9 +11,10 @@
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="Humanizer" Version="2.7.9" />
     <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.250" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\northwind.common\northwind.common.csproj" />
@@ -28,5 +29,8 @@
     <TypeScriptCompile Include="wwwroot\ts\helper.ts" />
     <TypeScriptCompile Include="wwwroot\ts\index.ts" />
     <TypeScriptCompile Include="wwwroot\ts\log.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="views\shared\components\pager\default.cshtml" />
   </ItemGroup>
 </Project>

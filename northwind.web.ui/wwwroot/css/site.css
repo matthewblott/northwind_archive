@@ -116,3 +116,17 @@ input.input, textarea.textarea {
   color: #7a8288;
   content: "\0002f\2007" !important;
 }
+
+
+/* calendar fix */
+.datetimepicker-dummy-input, .datetimepicker-dummy-wrapper {
+  background-color: #fff;
+  max-width: 600px !important;
+  border-radius: 4px;
+}
+
+.datetimepicker-clear-button {
+  display: none;
+  max-width: 600px !important;
+  border-radius: 4px;
+}

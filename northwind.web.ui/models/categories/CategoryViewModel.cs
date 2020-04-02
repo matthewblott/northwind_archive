@@ -1,8 +1,11 @@
-namespace northwind.web.ui.models
+namespace northwind.web.ui.models.categories
 {
-  public class CategoryViewModel
+  using common.mapping;
+  using domain.models;
+  
+  public class CategoryViewModel : IMapFrom<Category>, IMapTo<Category>
   {
-    public long Id { get; set; }
+    public int Id { get; set; }
     public string CategoryName { get; set; }
     public string Description { get; set; }
   }

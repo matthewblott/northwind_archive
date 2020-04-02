@@ -16,7 +16,6 @@ namespace northwind.domain
     DbSet<Order> Orders { get; }
     DbSet<ProductDetailsView> ProductDetailsView { get; }
     DbSet<Product> Products { get; }
-    DbSet<Region> Regions { get; }
     DbSet<Shipper> Shippers { get; }
     DbSet<Supplier> Suppliers { get; }
     DbSet<Territory> Territories { get; }
@@ -27,4 +26,5 @@ namespace northwind.domain
     IEnumerable<IProperty> Keys(Type type);
 
   }
+  
 }

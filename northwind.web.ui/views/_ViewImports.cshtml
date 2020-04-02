@@ -1,17 +1,27 @@
-﻿@using RegionType = northwind.domain.types.Region
-@using northwind.web.ui
-@using northwind.web.ui.models
-@using northwind.web.ui.models.customers
-@using northwind.web.ui.models.territories
-@using northwind.web.ui.setup
+﻿@using northwind.common
+@using northwind.domain.types
 @using northwind.services.models.categories
 @using northwind.services.models.customers
+@using northwind.services.models.orders
 @using northwind.services.models.products
+@using northwind.services.models.sql
 @using northwind.services.models.territories
+
+@using northwind.web.ui
+@using northwind.web.ui.models
+@using northwind.web.ui.models.categories
+@using northwind.web.ui.models.components
+@using northwind.web.ui.models.customers
+@using northwind.web.ui.models.orders
+@using northwind.web.ui.models.products
+@using northwind.web.ui.models.territories
+@using northwind.web.ui.setup
+
 @using Microsoft.AspNetCore.Http.Extensions
 @using AutoMapper
 @using cloudscribe.Web.Navigation
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, northwind.web.ui
+@addTagHelper *, northwind.web.ui.tags
 @addTagHelper *, cloudscribe.Web.Pagination

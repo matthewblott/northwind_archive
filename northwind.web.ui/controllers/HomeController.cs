@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using northwind.web.ui.models;
-
-namespace northwind.web.ui.controllers
+﻿namespace northwind.web.ui.controllers
 {
+  using Microsoft.AspNetCore.Mvc;
+
   public class HomeController : Controller
   {
     public IActionResult Index() => View();
-
   }
-    
 }

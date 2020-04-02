@@ -1,6 +1,7 @@
 namespace northwind.web.ui.controllers
 {
   using System;
+  using System.Collections.Generic;
   using AutoMapper;
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,21 +13,22 @@ namespace northwind.web.ui.controllers
   using services.types;
   using models;
   using models.customers;
+  using domain.types;
   
   public class CustomersController : Controller
   {
     private readonly ICustomerService _customerService;
-    private readonly IRegionService _regionService;
     private readonly IMapper _mapper;
-    
-    public CustomersController(ICustomerService customerService, IMapper mapper, IRegionService regionService)
+    private readonly IHtmlHelper _html;
+
+    public CustomersController(ICustomerService customerService, IMapper mapper, IHtmlHelper html)
     {
       _customerService = customerService;
       _mapper = mapper;
-      _regionService = regionService;
+      _html = html;
     }
 
-    public IActionResult Index(long page, string order, bool desc, string id, string companyName, string region)
+    public IActionResult Index(int page, string order, bool desc, string id, string companyName, string region)
     {
       var values = new QueryValues { {nameof(id), id}, {nameof(companyName), companyName}, {nameof(region), region},};
       var result = _customerService.Find(new Pager(page), values, order, desc);
@@ -39,7 +41,10 @@ namespace northwind.web.ui.controllers
 
     public IActionResult New()
     {
-      var viewModel = new CustomerViewModel {Regions = GetRegions()};
+      var viewModel = new CustomerViewModel
+      {
+        Regions = GetRegions()
+      };
 
       return View(viewModel);
       
@@ -127,17 +132,8 @@ namespace northwind.web.ui.controllers
     }
 
     public IActionResult IdExists(string id) => Json(_customerService.Exists(id));
-   
-    private SelectList GetRegions()
-    {
-      var regions = _regionService.Find(new Pager(1));
-      var items = regions.Data;
-      var selectList = new SelectList(items, nameof(Region.RegionDescription),  
-        nameof(Region.RegionDescription));
-    
-      return selectList;
-    
-    }
+
+    private  IEnumerable<SelectListItem> GetRegions() => _html.GetEnumSelectList<Region>();
     
   }
   

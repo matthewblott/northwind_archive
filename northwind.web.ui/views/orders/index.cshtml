@@ -1,0 +1,53 @@
+@model IndexViewModel<OrderServiceModel>
+
+<table class="table is-striped is-hoverable is-fullwidth">
+
+  <tr>
+    <th scope="col" nw-column="Id" asp-controller="Orders" nw-page="@Model.Pager.PageNumber"
+        nw-order="@Model.OrderBy" nw-descending="@Model.IsDescending">
+    </th>
+    <th scope="col" nw-column="CustomerId" asp-controller="Orders" nw-order="@Model.OrderBy"
+        nw-page="@Model.Pager.PageNumber" nw-descending="@Model.IsDescending">
+    </th>
+    <th scope="col" nw-column="OrderDate" asp-controller="Orders" nw-order="@Model.OrderBy"
+        nw-page="@Model.Pager.PageNumber" nw-descending="@Model.IsDescending">
+    </th>
+    <th scope="col">
+      <a asp-action="New">
+        <i class="fa fa-plus"></i>
+      </a>
+    </th>
+  </tr>
+
+  @foreach (var item in Model.Data)
+  {
+    <tr>
+      <td>
+        @item.Id
+      </td>
+      <td>
+        @item.CustomerId
+      </td>
+      <td>
+        @item.OrderDate.ToInternationalDateTimeString()
+      </td>
+      <td>
+        <a asp-action="Show" asp-route-id="@item.Id">
+          <i class="fa fa-eye"></i>
+        </a>
+      </td>
+    </tr>
+  }
+
+</table>
+
+<nw-pager
+  cs-paging-pagenumber="@Model.Pager.PageNumber"
+  cs-paging-pagesize="@Model.Pager.PageSize"
+  cs-paging-totalitems="@Model.Pager.TotalItems"
+  asp-controller="Orders"
+  asp-action="Index"
+  nw-query-values="@Model.QueryValues"
+  nw-order="@Model.OrderBy"
+  nw-descending="@Model.IsDescending">
+</nw-pager>

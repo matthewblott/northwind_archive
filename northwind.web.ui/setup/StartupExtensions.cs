@@ -1,4 +1,4 @@
-using northwind.domain.models;
+using RazorLight.Extensions;
 
 namespace northwind.web.ui.setup
 {
@@ -10,6 +10,7 @@ namespace northwind.web.ui.setup
   using Microsoft.AspNetCore.Mvc.Routing;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.DependencyInjection;
+  using Microsoft.Extensions.Configuration;
   using domain;
   using filters;
   using reporting;
@@ -30,35 +31,57 @@ namespace northwind.web.ui.setup
       {
         builder.EnableSensitiveDataLogging();
         builder.UseSqlite(connectionString);
+        // builder.UseInMemoryDatabase("northwind");
       }
       
       OptionsRunner(optionsBuilder);
       
       services.AddDbContextPool<Context>(OptionsRunner);
-      services.AddScoped<IContext, Context>();
+      
+      // services
+      //   .AddEntityFrameworkInMemoryDatabase()
+      //   .AddDbContext<ToDoDbContext>(options =>
+      //   {
+      //     options.UseInMemoryDatabase(_connectionString, _databaseRoot);
+      //     options.UseInternalServiceProvider(services.BuildServiceProvider());
+      //   });
+      
+      // services.AddScoped<IContext, Context>();
 
     }
 
     public static void AddConventionalServices(this IServiceCollection services)
     {
-      services.AddScoped<IRegionService, RegionService>();
       services.AddScoped<ICategoryService, CategoryService>();
       services.AddScoped<ICustomerService, CustomerService>();
+      services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+      services.AddScoped<IOrderService, OrderService>();
       services.AddScoped<IProductService, ProductService>();
+      services.AddScoped<ISqlRawService, SqlRawService>();
       services.AddScoped<ITerritoryService, TerritoryService>();
     }
     
-    public static void AddRouting(this IServiceCollection services)
+    public static void AddRoutingOptions(this IServiceCollection services)
       => services.AddRouting(option => option.LowercaseUrls = true);
 
-    public static void AddMvcServices(this IServiceCollection services)
+    public static void AddMvcServices(this IServiceCollection services, RazorSettings settings)
     {
-      services.AddMvc(options =>
+      var builder = services.AddMvc(options =>
       {
         options.Filters.Add(typeof(Breadcrumbs));
-      }).AddRazorRuntimeCompilation();
+      });
+
+      var isAllowed = (settings ?? new RazorSettings()).AllowRuntimeCompilation;
       
+      if (isAllowed)
+      {
+        builder.AddRazorRuntimeCompilation();
+      }
+  
     }
+
+    public static RazorSettings GetRazorSettings(this IConfiguration configuration)
+      => configuration.GetSection(nameof(RazorSettings)).Get<RazorSettings>();
 
     public static void AddReporting(this IServiceCollection services)
     {
